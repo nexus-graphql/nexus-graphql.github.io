@@ -1,0 +1,233 @@
+/* sm */
+@media (min-width: 640px) {
+  /* Header */
+  #header {
+    padding: 0 1.5rem;
+  }
+
+  /* Our Team */
+  #our-team ul.people {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #our-team > div > div {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  #our-team > div > div > div > * + * {
+    margin-top: 1rem;
+  }
+
+  #our-team > div > div > div h2 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+
+  /* Presentation */
+  #presentation iframe {
+    max-height: 304px;
+    max-width: 540px;
+  }
+}
+
+/* md */
+@media (min-width: 768px) {
+  #header nav {
+    align-items: center;
+    display: flex;
+    height: 100%;
+  }
+
+  #header nav > * + * {
+    margin-left: 2rem;
+  }
+
+  #header nav a {
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    border-top: 2px solid transparent;
+    color: var(--gray-500);
+    display: flex;
+    font-size: 0.875rem;
+    font-weight: 500;
+    height: 100%;
+    line-height: 1.25rem;
+    text-decoration: none;
+  }
+
+  #header nav a.icon {
+    font-size: 2rem;
+  }
+
+  #header nav a:hover {
+    border-bottom-color: var(--gray-300);
+    color: var(--gray-700);
+  }
+
+  #header nav a.selected {
+    border-bottom-color: var(--fjord-blue);
+    color: var(--fjord-blue);
+  }
+
+  #mobile-menu,
+  .mobile-menu-open #mobile-menu {
+    display: none;
+  }
+  
+  #menu {
+    display: none;
+  }
+  /* Our Team */
+  #our-team > div > div > div {
+    max-width: 36rem;
+  }
+
+  /* Presentation */
+  #presentation iframe {
+    max-height: 376px;
+    max-width: 668px;
+  }
+}
+
+/* lg */
+@media (min-width: 1024px) {
+  #header {
+    padding: 0 2rem;
+  }
+
+  /* Case Study */
+  :root {
+    --toc-width: 250px;
+  }
+
+  #case-study-content > div {
+    margin-left: var(--toc-width);
+    padding: 4rem;
+  }
+
+  #toc.show {
+    left: 0;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Our Team */
+  #our-team > div > div {
+    padding: 6rem 2rem;
+  }
+
+  #our-team > div > div > div {
+    max-width: 48rem;
+  }
+
+  #our-team ul.people {
+    /* margin-top: 1rem; */
+    gap: 2rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* Presentation */
+  #presentation iframe {
+    max-height: 520px;
+    max-width: 924px;
+  }
+
+  #presentation h2 {
+    font-size: 2.67rem;
+  }
+
+  /* Start Here */
+  #start-here > div {
+    display: flex;
+    flex-direction: row;
+  }
+
+  #start-here .static-logo-color {
+    background-image: url("../assets/logo/fjord-logo.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 30%;
+    background-position: calc(50% / 4) calc(50% + 2rem);
+  }
+
+  #start-here div.static-logo-light-blue {
+    background-image: url("../assets/logo/fjord-light-blue.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 30%;
+    background-position: calc(50% / 4) calc(50% + 2rem);
+    display: flex;
+  }
+
+  #start-here div.static-logo-yellow {
+    background-image: url("../assets/logo/fjord-yellow.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 30%;
+    background-position: calc(50% / 4) calc(50% + 2rem);
+    display: flex;
+  }
+
+  #start-here div.static-logo-blue {
+    background-image: url("../assets/logo/fjord-blue.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 30%;
+    background-position: calc(50% / 4) calc(50% + 2rem);
+    display: flex;
+  }
+
+  #start-here .h-full {
+    height: calc(100vh - 4rem);
+  }
+
+  #start-here h2.sm-header {
+    display: none;
+  }
+
+  #start-here > div div:last-child {
+    padding: 4rem;
+  }
+
+  #start-here img.lg-screen {
+    display: block;
+  }
+
+  #start-here img.sm-screen {
+    display: none;
+  }
+}
+
+/* xl */
+@media (min-width: 1280px) {
+  /* Case Study */
+  :root {
+    --toc-width: 400px;
+  }
+
+  #toc {
+    padding: 2rem;
+  }
+
+  /* Our Team */
+  #our-team > div > div > div {
+    max-width: none;
+  }
+
+  /* Presentation */
+  #presentation iframe {
+    max-height: 664px;
+    max-width: 1180px;
+  }
+
+  #presentation h2 {
+    font-size: 2.8rem;
+  }
+}
+
+/* 2xl */
+@media (min-width: 1536px) {
+}
