@@ -10,7 +10,7 @@ bg-dark-blue@font-face {
 
 :root {
   --fjord-light-blue: #85d5e6; 
-  --fjord-blue: #3152c8;
+  --nexus-blue: #0027aa;
   --nexus-dark-blue: #14014e;
   --fjord-yellow: #ffab40;
   --nexus-pink: #b900bf;
@@ -83,10 +83,6 @@ body {
   background-color: var(--fjord-yellow);
 }
 
-.bg-teal {
-  background-color: var(--fjord-teal);
-}
-
 .bg-pink {
   background-color: var(--nexus-pink);
 }
@@ -96,15 +92,11 @@ body {
 }
 
 .text-pink {
-  color: var(--fjord-pink);
+  color: var(--nexus-pink);
 }
 
 .text-blue {
-  color: var(--fjord-blue);
-}
-
-.text-teal {
-  color: var(--fjord-teal);
+  color: var(--nexus-blue);
 }
 
 .text-gray {
