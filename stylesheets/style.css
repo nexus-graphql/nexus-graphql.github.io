@@ -9,13 +9,12 @@ bg-dark-blue@font-face {
 }
 
 :root {
-  --fjord-light-blue: #85d5e6; /* Leena changed this - please update */
+  --fjord-light-blue: #85d5e6; 
   --fjord-blue: #3152c8;
-  --fjord-dark-blue: #001633;
+  --nexus-dark-blue: #14014e;
   --fjord-yellow: #ffab40;
-  --fjord-teal: #00c3b1;
+  --nexus-pink: #b900bf;
   --fjord-teal-light: rgba(0, 189, 170, 0.2);
-  --fjord-pink: #f86649;
   --fjord-gray: #757b7e;
 
   --white: #ffffff;
