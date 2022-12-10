@@ -76,7 +76,7 @@ body {
 }
 
 .bg-dark-blue {
-  background-color: var(--fjord-dark-blue);
+  background-color: var(--nexus-dark-blue);
 }
 
 .bg-yellow {
@@ -88,7 +88,7 @@ body {
 }
 
 .bg-pink {
-  background-color: var(--fjord-pink);
+  background-color: var(--nexus-pink);
 }
 
 .bg-gray {
