@@ -491,7 +491,8 @@ img.icon {
 }
 
 #our-team .profile > div > div > p {
-  color: var(--fjord-teal);
+  color: #14014e;
+  font-style: italic;
 }
 
 #our-team .social {
