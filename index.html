@@ -208,14 +208,6 @@
           <a href="#section-2-1">
             <div>
               <div class="bullet"><div></div></div>
-              <p>Who Might Use Nexus?</p>
-            </div>
-          </a>
-        </li>
-        <li data-section="section-2" class="subitem">
-          <a href="#section-2-2">
-            <div>
-              <div class="bullet"><div></div></div>
               <p>Under-fetching and Over-fetching Data</p>
             </div>
           </a>
@@ -510,9 +502,11 @@
           <p>
             In this case study, we outline the key challenges we faced as we worked with real-time APIs, event driven architectures, and Kafka as an event streaming platform. 
           </p>
+
           <!-- Section 2 -->
-          <h2 id="section-2" class="h2">2. Use Case & SuperEats example</h2>
-          <h3 id="section-2-1">2.1 Who Might Use Fjord?</h3>
+          <h2 id="section-2" class="h2">2. APIs</h2>
+
+          <h3 id="section-2-1">2.1 Under-fetching and Over-fetching Data</h3>
           <p>
             Any company or organization that uses Kafka may need to expose one or more Kafka topics to a client interface, whether because this is a central or tangential aspect of their business, or even just as an additional layer of human observability into a particular data stream.
           </p>
@@ -528,7 +522,8 @@
           <p>
             Of course, this organization is cost-conscious and wants the most efficient and easy way to deploy the infrastructure needed to solve this problem, while still managing, owning, and closely handling all the data themselves.
           </p>
-          <h3 id="section-2-2">2.2 SuperEats Example</h3>
+
+          <h3 id="section-2-2">2.2 Adapting an API</h3>
           <p>
             Let’s imagine that you run a company called SuperEats. Your company provides a platform that enables customers to order a meal from any registered restaurant, and independent contractors to pick up the order from that restaurant, and drive the meal to the customer.
           </p>
@@ -553,8 +548,9 @@
           </figure>
          
           <!-- Section 3 -->
-          <h2 id="section-3" class="h2">3. What is Real-time?</h2>
-          <h3 id="section-3-1">3.1 Defining Real-time</h3>
+          <h2 id="section-3" class="h2">3. GraphQL</h2>
+
+          <h3 id="section-3-1">3.1 GraphQL Implementation Challenges</h3>
           
           <p>
             Ably, a leader in the real-time space, defines real-time thus:
@@ -575,7 +571,7 @@
             If any of these groups aren’t able to get updates in real-time, their user experience is degraded, and updates would no longer be meaningful.
           </p>
         
-          <h3 id="section-3-2">3.2 Real-time Techniques</h3>
+          <h3 id="section-3-2">3.2 Server Components</h3>
           <p>
             There are different techniques developers could use to deliver real-time updates over the web.
           </p>
@@ -626,7 +622,7 @@
           <p>
             WebSockets are great in situations where both the server and the client need to frequently send data to each other, such as in online gaming and chat room applications. WebSockets are also seen as the de facto technology for real-time communication, which means that there’s a large community available for support, and many open source libraries available.
           </p>
-          <h3 id="section-3-3">3.3 Choosing a Real-time API</h3>
+          <h3 id="section-3-3">3.3 Schema Writing Approaches</h3>
           <figure>
             <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
           </figure>
@@ -670,13 +666,104 @@
           <p>
             Next, let’s understand why we decided to specifically build an API proxy for Kafka.
           </p>
+
+          <h3 id="section-3-4">3.4 Merging and Stitching Schemas</h3>
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+          <h4>3.3.1 Unidirectional v.s. Bidirectional</h4>
+          <p>
+            SSE’s unidirectional limitation was not an impediment in our use case. Our goal was always to stream content from Kafka to end users, and not vice versa. For a company like SuperEats, having all customers and drivers be able to send a stream of data back to the company’s Kafka cluster may actually open up a new set of challenges that would require additional security and maintenance. That was an additional challenge not warranted by our use case.
+          </p>
+          <p>
+            It’s true that we could have still used WebSockets and just chosen to not implement any client-side push back to Kafka. But that would defeat the main purpose of using WebSockets in the first place.
+          </p>
+          <p>
+            There are also two useful SSE features absent with WebSockets that tipped the scale in favor of using SSE for Fjord: auto-reconnect, and native infrastructure compatibility.
+          </p>
+          <h4>3.3.2 Auto-reconnect</h4>
+          
+          <p>
+            By default, SSE’s EventSource WebAPI automatically tries to reconnect the client to the server every time the client gets disconnected from the server. Because our use case involved streaming to drivers on mobile devices that may need to switch cell phone towers when driving across town, this seemed like a useful feature.
+          </p>
+          <figure>
+            <img src="assets/media/gifs/sse_autoreconnect.gif" class="case-study-image" />
+          </figure>          <p>
+            The auto-reconnect feature also proved useful for auto-scaling purposes. Because, as we’ll explore later, the URL that clients are connected to is actually that of a load balancer, this meant that whenever a server has either crashed or needs to be shut down because of low activity, all of the clients currently receiving data from that server would automatically be reconnected to another existing server. 
+            There was no need for us to configure any additional logic to handle that.
+          </p>
+          <p>
+            The auto-reconnect feature worked in perfect tandem with the load balancer to persist client-server connections.
+          </p>
+          <h4>3.3.3 Native Infrastructure Compatibility</h4>
+          <p>
+            Lastly, the main advantage of SSE has to do with the fact that it works over the standard HTTP protocol and not a more specialized protocol like WebSockets. This means that SSE works right out of the box with all your infrastructure components like load balancers, proxies, etc.
+          </p>
+          <p>
+            Configuring your infrastructure to work with WebSockets is of course possible, but it would require using additional libraries and spending more time around configurations.
+          </p>
+          <p>
+            For all these reasons, we used SSE to stream records from our server to clients.
+          </p>
+          <figure>
+            <img src="assets/media/images/WS vs SSE reworked.svg" class="case-study-image" />
+          </figure>
+          <p>
+            Next, let’s understand why we decided to specifically build an API proxy for Kafka.
+          </p>
+          
+          <h3 id="section-3-5">3.5 Deployment</h3>
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+          <h4>3.3.1 Unidirectional v.s. Bidirectional</h4>
+          <p>
+            SSE’s unidirectional limitation was not an impediment in our use case. Our goal was always to stream content from Kafka to end users, and not vice versa. For a company like SuperEats, having all customers and drivers be able to send a stream of data back to the company’s Kafka cluster may actually open up a new set of challenges that would require additional security and maintenance. That was an additional challenge not warranted by our use case.
+          </p>
+          <p>
+            It’s true that we could have still used WebSockets and just chosen to not implement any client-side push back to Kafka. But that would defeat the main purpose of using WebSockets in the first place.
+          </p>
+          <p>
+            There are also two useful SSE features absent with WebSockets that tipped the scale in favor of using SSE for Fjord: auto-reconnect, and native infrastructure compatibility.
+          </p>
+          <h4>3.3.2 Auto-reconnect</h4>
+          
+          <p>
+            By default, SSE’s EventSource WebAPI automatically tries to reconnect the client to the server every time the client gets disconnected from the server. Because our use case involved streaming to drivers on mobile devices that may need to switch cell phone towers when driving across town, this seemed like a useful feature.
+          </p>
+          <figure>
+            <img src="assets/media/gifs/sse_autoreconnect.gif" class="case-study-image" />
+          </figure>          <p>
+            The auto-reconnect feature also proved useful for auto-scaling purposes. Because, as we’ll explore later, the URL that clients are connected to is actually that of a load balancer, this meant that whenever a server has either crashed or needs to be shut down because of low activity, all of the clients currently receiving data from that server would automatically be reconnected to another existing server. 
+            There was no need for us to configure any additional logic to handle that.
+          </p>
+          <p>
+            The auto-reconnect feature worked in perfect tandem with the load balancer to persist client-server connections.
+          </p>
+          <h4>3.3.3 Native Infrastructure Compatibility</h4>
+          <p>
+            Lastly, the main advantage of SSE has to do with the fact that it works over the standard HTTP protocol and not a more specialized protocol like WebSockets. This means that SSE works right out of the box with all your infrastructure components like load balancers, proxies, etc.
+          </p>
+          <p>
+            Configuring your infrastructure to work with WebSockets is of course possible, but it would require using additional libraries and spending more time around configurations.
+          </p>
+          <p>
+            For all these reasons, we used SSE to stream records from our server to clients.
+          </p>
+          <figure>
+            <img src="assets/media/images/WS vs SSE reworked.svg" class="case-study-image" />
+          </figure>
+          <p>
+            Next, let’s understand why we decided to specifically build an API proxy for Kafka.
+          </p>
+          
           <!-- Section 4 -->
-          <h2 id="section-4" class="h2">4. What is Kafka?</h2>
+          <h2 id="section-4" class="h2">4. Existing Solutions</h2>
           <p>
             In this section, we will explore Kafka's role as an event streaming platform, why it often serves as the backbone of an organization’s infrastructure, and finally why it's a great conveyor of real-time data.
           </p>
 
-          <h3 id="section-4-1">4.1 The evolution that led to Kafka</h3>
+          <h3 id="section-4-1">4.1 Managed Cloud Services</h3>
           
           <h4>4.1.1 EDA as Messaging Pattern for Microservices</h4>
           <p>
@@ -718,7 +805,8 @@
           <p>
             All consumers that are interested in this particular event can then read it from the broker. For example, the inventory, billings, and delivery services could all react to the same order event. Events are immutable (i.e. they cannot be edited), but they may expire or be deleted.
           </p>
-          <h4>4.1.2 Limitations of Traditional EDAs</h4>
+
+          <h4>4.1.2 Open Source Libraries</h4>
           <p>
             Traditional EDAs simplify communication between microservices and are typically based on a message queue model. However, they also present a new set of challenges.
           </p>
@@ -798,7 +886,7 @@
             <img src="assets/media/images/brandsUsingKafka.png" class="case-study-image" />
           </figure>
 
-          <h3 id="section-4-3">4.3 Kafka, Real-time, and SuperEats</h3>
+          <h3 id="section-4-3">4.3 Nexus</h3>
           <p>
             A company like SuperEats can use Kafka to set up an infrastructure that can scale as the business grows, without worrying about performance issues down the line.
           </p>
@@ -829,8 +917,8 @@
           </p>
 
           <!-- Section 5 -->
-          <h2 id="section-5" class="h2">5. Why need an API Proxy for Kafka?</h2>
-          <h3 id="section-5-1">5.1 Protocol Interoperability Issue</h3>
+          <h2 id="section-5" class="h2">5. Nexus Walkthrough</h2>
+          <h3 id="section-5-1">5.1 Download and Setup</h3>
           <p>
             Kafka is a robust event streaming platform great for handling high volumes of events flowing between a relatively manageable number of producers and consumers. It uses a proprietary binary protocol designed to facilitate machine to machine communication.
           </p>
@@ -841,7 +929,8 @@
             However, internet facing end users use their mobile phones, laptops, tablets and desktops and use the HTTP/S protocol. 
             As we saw earlier, the choice here is to leverage SSE and receive a continuous stream of data without any additional effort from the end user. There is a <strong>clear mismatch</strong> between Kafka and the end-user's protocol of consuming streams of data.
           </p>
-          <h3 id="section-5-2">5.2 Using an API Proxy as Middleware</h3>
+
+          <h3 id="section-5-2">5.2 Initializing GraphQL API Server</h3>
           <p>
             An API proxy can be designed to tackle the challenges of moving Kafka data online for public consumption. An API proxy is generally a server that sits between your web application and a backend service. Developers can build web applications using the set of API endpoints without knowing anything about the back-end.
           </p>
@@ -851,7 +940,8 @@
           <p>
             By positioning an API proxy between Kafka and the web, the API proxy can pull data from Kafka over Kafka’s binary protocol, and can push that data to connected devices in real-time via SSE, which is delivered over the HTTP protocol.
           </p>
-          <h3 id="section-5-3">5.3 Additional Benefits of an API Proxy</h3>
+
+          <h3 id="section-5-3">5.3 Adding Other Data Sources</h3>
           <p>
             An API Proxy not only makes client-side streaming from Kafka possible, but it also provides some additional benefits.
           </p>
@@ -877,9 +967,26 @@
             </ul>
           </div>
           
+          <h3 id="section-5-4">5.4 Testing the Server</h3>
           <p>
-            What are some existing solutions for this API proxy? Let’s look at that next.
+            An API Proxy not only makes client-side streaming from Kafka possible, but it also provides some additional benefits.
           </p>
+
+          <h3 id="section-5-5">5.5 Deployment</h3>
+          <p>
+            An API Proxy not only makes client-side streaming from Kafka possible, but it also provides some additional benefits.
+          </p>
+
+          <h3 id="section-5-6">5.6 Dashboard</h3>
+          <p>
+            An API Proxy not only makes client-side streaming from Kafka possible, but it also provides some additional benefits.
+          </p>
+
+          <h3 id="section-5-7">5.7 Destroy</h3>
+          <p>
+            An API Proxy not only makes client-side streaming from Kafka possible, but it also provides some additional benefits.
+          </p>
+
           <!-- Section 6 -->
           <h2 id="section-6" class="h2">6. Existing Solutions</h2>
           <h3 id="section-6-1">6.1 Paid Solutions</h3>

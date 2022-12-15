@@ -374,7 +374,7 @@ img.icon {
 .prose h2,
 .prose h3,
 .prose h4 {
-  color: #334252; /* sophie changes */
+  color: #334252;
   margin-top: 3rem;
 }
 
@@ -386,7 +386,7 @@ img.icon {
 }
 
 .prose p {
-  color: #4a5568; /* sophie changes */
+  color: #4a5568;
 }
 
 .prose a:hover {
