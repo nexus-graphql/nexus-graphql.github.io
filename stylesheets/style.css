@@ -424,7 +424,7 @@ img.icon {
 
 /* Our Team */
 #our-team > div {
-  background-color: var(--gray-900);
+  background-color: var(--nexus-pink);
 }
 
 #our-team > div > div {
