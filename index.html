@@ -485,45 +485,40 @@
             Nexus is an open-source GraphQL framework that generates an instant GraphQL API from a user's existing data sources.
           </p>
 
-          <figure>
-            <img src="assets/media/images/vennDiagram.png" class="case-study-image" />
-          </figure>
-
           <p>
-            Through Nexus’s CLI...
-          </p>
-          <video autoplay loop muted playsinline>
-            <source src="./assets/media/mp4/API-Proxy-white.mp4" type="video/mp4" />
-            Your browser does not support the HTML5 Video element.
-          </video>
-          <p>
-            This enables any number of authorized end users--whether on a browser or a mobile app--to receive data streams from any number of Kafka topics from any number of Kafka clusters.          
-          </p>
-          <p>
-            In this case study, we outline the key challenges we faced as we worked with real-time APIs, event driven architectures, and Kafka as an event streaming platform. 
+            Nexus is an open-source framework that generates and deploys a GraphQL API from a user’s existing data sources. We make the setup for the user easy by providing a CLI tool and admin dashboard. Data sources can be added, removed, and changed without writing any new code or schemas. Additionally, users can test the generated GraphQL server locally with an integrated graphical interface. This interface exposes the entire API’s documentation and serves as a playground for making test queries and viewing responses. Lastly, when the server is ready to deploy, Nexus automates deployment to AWS.
           </p>
 
+          <p>
+            In this case study, we will introduce APIs, GraphQL, and how to implement GraphQL.
+Additionally, we discuss how and why Nexus was built and the features we hope to develop in the future. The main goal for Nexus was to efficiently deploy an auto-generated GraphQL server that connects to multiple data sources. Before we dive deeper into Nexus, let’s begin by discussing what an API is and how it can be used.
+          </p>
+  
           <!-- Section 2 -->
           <h2 id="section-2" class="h2">2. APIs</h2>
 
-          <h3 id="section-2-1">2.1 Under-fetching and Over-fetching Data</h3>
           <p>
-            Any company or organization that uses Kafka may need to expose one or more Kafka topics to a client interface, whether because this is a central or tangential aspect of their business, or even just as an additional layer of human observability into a particular data stream.
-          </p>
-          <p>
-            Building, hosting, and managing the infrastructure necessary to handle client-side 
-            streaming from Kafka can be challenging, time consuming, and the kind of undifferentiated heavy lifting that is best outsourced to a third party.
-          </p>
-          <p>We see our target user as an organization that:</p>
-          <ol>
-            <li>Is <strong>large enough</strong> to already use Kafka for some aspect of their infrastructure,</li>
-            <li>Wants to <strong>expose some stream of data</strong> (i.e. from a Kafka topic) in real-time to their employees, customers, suppliers, or any other type of stakeholder, including the public at large--or any combination of these.</li>
-          </ol>
-          <p>
-            Of course, this organization is cost-conscious and wants the most efficient and easy way to deploy the infrastructure needed to solve this problem, while still managing, owning, and closely handling all the data themselves.
+            An API, or Application Programming Interface, is a way to share data across different systems. This is similar to how a mouse, keyboard, or screen is used as an interface to transfer data between humans and computers. 
           </p>
 
-          <h3 id="section-2-2">2.2 Adapting an API</h3>
+          <p>
+            An API is a layer that standardizes and abstracts the inner workings of two separate systems, allowing them to communicate fluidly.
+          </p>
+  
+          <p>
+            Web applications are commonly split into two major parts: the “frontend” and the “backend." These parts are decoupled to separate concerns. The frontend handles how a web page looks and user interaction with the page. In contrast, the backend accesses databases and handles business logic. By decoupling, the development workflow is optimized, allowing separate languages, libraries, and frameworks to be used. 
+          </p>
+
+          <p>
+            Once separated, the two parts need a common language to communicate with each other. An API serves as the link, allowing communication in a standardized format. Many API patterns and conventions specify how to build and design APIs for different needs. Many of them are endpoint-based, and the most common is REST.
+          </p>
+
+          <h3 id="section-2-1">2.1 REST</h3>
+
+          <h3 id="section-2-2">2.2 Under-fetching and Over-fetching Data</h3>
+
+          <h3 id="section-2-3">2.3 Adapting an API</h3>
+
           <p>
             Let’s imagine that you run a company called SuperEats. Your company provides a platform that enables customers to order a meal from any registered restaurant, and independent contractors to pick up the order from that restaurant, and drive the meal to the customer.
           </p>
