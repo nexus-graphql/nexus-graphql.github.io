@@ -296,15 +296,15 @@ body {
 }
 
 #toc .selected a:hover .bullet div {
-  background-color: var(--fjord-blue);
+  background-color: var(--nexus-pink);
 }
 
 #toc .selected .bullet {
-  background-color: var(--fjord-light-blue);
+  background-color: var(--nexus-pink);
 }
 
 #toc .selected .bullet div {
-  background-color: var(--fjord-blue);
+  background-color: var(--nexus-pink);
 }
 
 #toc .subitem {
