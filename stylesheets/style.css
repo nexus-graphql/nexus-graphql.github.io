@@ -424,7 +424,7 @@ img.icon {
 
 /* Our Team */
 #our-team > div {
-  background-color: var(--nexus-pink);
+  background-color: var(--nexus-dark-blue);
 }
 
 #our-team > div > div {
@@ -459,7 +459,7 @@ img.icon {
 }
 
 #our-team .profile {
-  background-color: var(--gray-800);
+  background-color: var(--nexus-pink);
   border-radius: 0.5rem;
   padding: 2rem 1rem;
   text-align: center;
