@@ -445,7 +445,7 @@ img.icon {
 }
 
 #our-team > div > div > div p {
-  color: var(--gray-300);
+  color: #fff;
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
