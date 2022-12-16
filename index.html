@@ -262,14 +262,6 @@
           <a href="#section-3-4">
             <div>
               <div class="bullet"><div></div></div>
-              <p>3.4 Merging and Stitching Schemas</p>
-            </div>
-          </a>
-        </li>
-        <li data-section="section-3" class="subitem">
-          <a href="#section-3-5">
-            <div>
-              <div class="bullet"><div></div></div>
               <p>3.5 Deployment</p>
             </div>
           </a>
@@ -525,7 +517,11 @@
             REST has become the dominant pattern for building web application APIs. By some estimates, over 89% of APIs today follow REST conventions. One reason for its popularity is that REST is simple for developers to understand and build. It interacts well with other building blocks of web architecture, like the HTTP protocol. REST particularly shines in applications where client pages correspond directly with REST endpoints. 
           </p>
 
-          <p>quote</p>
+          <figure>
+            <blockquote>
+              <p>Endpoint-based APIs are great when it comes to optimizing an exchange between a client and a server for <strong>one functionality or use case</strong>.</p>
+            </blockquote>
+          </figure>
 
           <p>
             Although REST has many benefits, issues can arise when a new frontend use case is integrated with an existing REST API. Consider a hypothetical bookstore, a web application supported by a REST API. When a new mobile application is introduced, a few problems become more prevalent.
@@ -573,7 +569,11 @@
             Beyond application performance, over-fetching and under-fetching affect frontend developer productivity. When an API does not match their frontend client’s data needs well, developers must spend additional time orchestrating many requests and filtering unnecessary data. In some cases, dealing with data can take the majority of frontend development time, leaving little time to spend on building critical UI.
           </p>
 
-          <p>quote</p>
+          <figure>
+            <blockquote>
+              <p>Endpoint-based APIs are great when it comes to optimizing an exchange between a client and a server for <strong>one functionality or use case</strong>.</p>
+            </blockquote>
+          </figure>
 
           <h3 id="section-2-3">2.3 Adapting an API</h3>
 
@@ -589,7 +589,11 @@
             Introducing customization makes a REST API more flexible. However, these adaptations make it more complex and challenging to work with for API providers. In a recent survey by Postman, 51% of respondents reported over half of their organization’s development effort is dedicated to APIs. As the complexity grows, adapting the API can become a critical bottleneck, slowing the addition of future client use cases.
           </p>
 
-          <p>quote</p>
+          <figure>
+            <blockquote>
+              <p>Endpoint-based APIs are great when it comes to optimizing an exchange between a client and a server for <strong>one functionality or use case</strong>.</p>
+            </blockquote>
+          </figure>
 
           <p>
             Creating and managing documentation can also take time away from the backend developer’s primary responsibilities. As the API changes and adaptations are made, the documentation becomes more challenging to maintain, requiring more time to keep up-to-date. This may not always be possible, which is why API documentation is often considered a “nice-to-have” on the priority list for providers. However, documentation is critical for API consumers, and poor or missing information about endpoints compounds the challenges faced by the frontend team.
@@ -616,372 +620,307 @@
           <!-- Section 3 -->
           <h2 id="section-3" class="h2">3. GraphQL</h2>
 
+          <p>
+            Unlike multi-endpoint APIs like REST, a GraphQL API exposes a single endpoint. This difference contributes to many of the benefits GraphQL can offer.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            With GraphQL, each frontend client uses a single endpoint to request the required data. To support fetching multiple resources for differing client types using the same endpoint, GraphQL introduces a query language that clients use to request the data. Client-side developers no longer need to keep track of many different endpoints and their different standards. Furthermore, API developers no longer need to add new endpoints, adapt their endpoints, or version them for different client types. By moving to one endpoint, both providers and clients can save time.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            Let’s return to the hypothetical bookstore example from above. Data was over-fetched because the information needed for the desktop application differed from the mobile application. How can GraphQL fix this? A GraphQL query specifies the data a client needs, and the response structure matches that query. Queries are customizable, and the same query can fetch multiple resources simultaneously. The response will contain precisely the information requested, no more, no less. This change helps the developers save time and reduces the amount of data sent over the wire.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            We also saw how under-fetching could lead to round-trip latency. How can GraphQL help with this? A single query can fetch all the necessary data for the client, preventing cascading waterfall requests. Developers no longer have to wait for multiple requests to make round trips to the API server. It’s important to note there may still be multiple round trips needed to fetch data from various data sources. However, these can happen from API server to data source rather than from client to server.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            GraphQL APIs are self-documenting and can be quickly introspected to view available query options. As a result, API providers no longer have to create and maintain documentation, which can drastically help the provider save time and improve productivity.
+          </p>          
+
           <h3 id="section-3-1">3.1 GraphQL Implementation Challenges</h3>
           
           <p>
-            Ably, a leader in the real-time space, defines real-time thus:
+            While the frontend developers enjoy the benefits of a single endpoint, the responsibility for supporting a GraphQL API falls to the backend team.
           </p>
-          <figure>
-            <blockquote>
-              <p>Real-time is the ability to react to anything that occurs as it occurs, before it loses its importance.</p>
-            </blockquote>
-          </figure>
+
           <p>
-            This definition illustrates the main idea here: within the context of web applications, the goal of real-time streaming is to allow the recipient to get the information they need within sufficient time to adequately respond to it.
-          </p>
-          <figure>
-            <img src="assets/media/gifs/Events.gif" class="case-study-image" />
-          </figure>
-          <p>
-            Restaurants expect real-time updates on orders as soon as they are placed by customers. Customers expect updates on their order status, and drivers are constantly on the look out for nearby delivery requests. 
-            If any of these groups aren’t able to get updates in real-time, their user experience is degraded, and updates would no longer be meaningful.
+            Building a GraphQL API introduces new challenges and pitfalls for API developers. First, developers must get up to speed on the GraphQL specification and learn about the unique components that make up a GraphQL server. The learning curve can be steep because GraphQL differs significantly from REST. They’ll also need to decide on an approach to writing their schema and combining them. Each approach has its tradeoffs, which can complicate the decision and slow the setup process.
           </p>
         
+          <p>
+            Secondly, the developer must deploy their new server so that frontend clients can query the API. They will need to decide which cloud services to utilize among the many options, provision and connect their chosen services, and deploy and manage that infrastructure.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            Many steps go into building and deploying an initial GraphQL server, and this process can be time-consuming, tedious, and error-prone. The process of migrating from REST or adding a GraphQL layer to an existing application can take weeks or longer.
+          </p>
+
+          <p>
+            To understand the challenge that development teams face, let’s take a closer look at what it takes to build a GraphQL API connected to multiple data sources.
+          </p>
+
           <h3 id="section-3-2">3.2 Server Components</h3>
+          
           <p>
-            There are different techniques developers could use to deliver real-time updates over the web.
+            The main components of a GraphQL server are the schema and resolvers. A GraphQL schema defines the data types that can be requested and the relationships between types. Resolvers are functions that retrieve the requested data specified in the schema.
           </p>
 
-          <h4>3.2.1  Long polling</h4>
-          <p>
-            With long polling, the client sends an initial HTTP request to the server, and the server then waits until there’s a new piece of data to send back. Once the server gets a new update, it sends a response and immediately closes the request. The client must then send yet a <strong>new</strong> request to receive another update from the server.
-          </p>
           <figure>
-            <img src="assets/media/gifs/polling.gif" class="case-study-image" />
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
           </figure>
+
           <p>
-            This is great in situations when the rate of new message production is not high. For example, the current outdoor temperature usually doesn't significantly change every quarter or even hour.
+            A GraphQL schema comprises type definitions, which describe a queryable type within the GraphQL API. Each type includes fields that define the properties of that type, and each field can be a base type, like String or Integer. To support the graph data structure of GraphQL, fields are also used to represent associations between types. For example, a type of “Book” may have a field “author” which corresponds to an “Author” type, thus associating those two types.
           </p>
-          <p>
-            There are downsides to using long polling. Having the client send a new request and the server send a new response for every single new message not only adds more latency to the process, but also puts more work on both the client and the server.
-          </p>
-          
-          <h4>3.2.2 Server Sent Events (SSE)</h4>
-          <p>
-            SSE (also known as EventSource) is a web API that enables a client to receive a continuous stream of data from a server.
-          </p>
-          <p>
-            The client sends an HTTP request through the EventSource WebAPI, which lets the server know this request is for a stream of data. The server then returns a never-ending HTTP response whose headers indicate that the connection will be ongoing until explicitly closed. At the same time, the server starts to send any data received, all in <strong>the same HTTP response</strong>.
-          </p>
+
           <figure>
-            <img src="assets/media/gifs/sse.gif" class="case-study-image" />
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
           </figure>
+
           <p>
-            Just like long polling, SSE is <strong>unidirectional</strong>. The data is only streaming from the server to the client, and not vice versa.
+            The default type `Query` represents one entry point into the schema and actions that retrieve data. The `Query` type contains fields that the GraphQL schema creator defines. The GraphQL specification also includes default types of `Mutation` for adding or modifying data and `Subscription` to support streaming data with GraphQL.
           </p>
-          <p>
-            However, the SSE approach is much more efficient than long polling, as there’s no longer the need to continuously open and close HTTP responses for every message. All data is being transmitted through one never ending HTTP response.
-          </p>
-          <p>
-            SSE is therefore ideal for situations where the client is not regularly sending information to the server, but is instead receiving a constant stream from the server.
-          </p>
-          <h4>3.2.3 WebSockets</h4>
-          <p>
-            WebSockets is a protocol that allows a client and a server to repeatedly exchange data through a single TCP connection. This <strong>bidirectional</strong> protocol means that both the client and the server can send data to each other as long as the WebSocket connection remains open.
-          </p>
+
           <figure>
-            <img src="assets/media/gifs/ws.gif" class="case-study-image" />
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
           </figure>
+
           <p>
-            The client first sends a normal HTTP request, but this request contains headers that ask the connection to be upgraded to a WebSocket connection. The server then sends a response that opens the bidirectional communication line over the WebSockets protocol.
+            Resolvers are functions that can take a GraphQL query and respond with the appropriate data for each field in the query. They are defined by the developer and specify how the data for fields in the type definitions are retrieved.
           </p>
-          <p>
-            WebSockets are great in situations where both the server and the client need to frequently send data to each other, such as in online gaming and chat room applications. WebSockets are also seen as the de facto technology for real-time communication, which means that there’s a large community available for support, and many open source libraries available.
-          </p>
+
           <h3 id="section-3-3">3.3 Schema Writing Approaches</h3>
-          <figure>
-            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
-          </figure>
-          <h4>3.3.1 Unidirectional v.s. Bidirectional</h4>
-          <p>
-            SSE’s unidirectional limitation was not an impediment in our use case. Our goal was always to stream content from Kafka to end users, and not vice versa. For a company like SuperEats, having all customers and drivers be able to send a stream of data back to the company’s Kafka cluster may actually open up a new set of challenges that would require additional security and maintenance. That was an additional challenge not warranted by our use case.
-          </p>
-          <p>
-            It’s true that we could have still used WebSockets and just chosen to not implement any client-side push back to Kafka. But that would defeat the main purpose of using WebSockets in the first place.
-          </p>
-          <p>
-            There are also two useful SSE features absent with WebSockets that tipped the scale in favor of using SSE for Fjord: auto-reconnect, and native infrastructure compatibility.
-          </p>
-          <h4>3.3.2 Auto-reconnect</h4>
           
           <p>
-            By default, SSE’s EventSource WebAPI automatically tries to reconnect the client to the server every time the client gets disconnected from the server. Because our use case involved streaming to drivers on mobile devices that may need to switch cell phone towers when driving across town, this seemed like a useful feature.
-          </p>
-          <figure>
-            <img src="assets/media/gifs/sse_autoreconnect.gif" class="case-study-image" />
-          </figure>          <p>
-            The auto-reconnect feature also proved useful for auto-scaling purposes. Because, as we’ll explore later, the URL that clients are connected to is actually that of a load balancer, this meant that whenever a server has either crashed or needs to be shut down because of low activity, all of the clients currently receiving data from that server would automatically be reconnected to another existing server. 
-            There was no need for us to configure any additional logic to handle that.
-          </p>
-          <p>
-            The auto-reconnect feature worked in perfect tandem with the load balancer to persist client-server connections.
-          </p>
-          <h4>3.3.3 Native Infrastructure Compatibility</h4>
-          <p>
-            Lastly, the main advantage of SSE has to do with the fact that it works over the standard HTTP protocol and not a more specialized protocol like WebSockets. This means that SSE works right out of the box with all your infrastructure components like load balancers, proxies, etc.
-          </p>
-          <p>
-            Configuring your infrastructure to work with WebSockets is of course possible, but it would require using additional libraries and spending more time around configurations.
-          </p>
-          <p>
-            For all these reasons, we used SSE to stream records from our server to clients.
-          </p>
-          <figure>
-            <img src="assets/media/images/WS vs SSE reworked.svg" class="case-study-image" />
-          </figure>
-          <p>
-            Next, let’s understand why we decided to specifically build an API proxy for Kafka.
+            Before developers can create a schema, they may choose between two approaches for schema writing: schema-first or code-first. The schema-first approach utilizes the GraphQL Schema Definition Language or SDL for short. Using SDL allows the developer to define their schema in a programming language-agnostic way.
           </p>
 
-          <h3 id="section-3-4">3.4 Merging and Stitching Schemas</h3>
+          <p>
+            The SDL includes syntax for defining the types that form the GraphQL data model. A schema written using the SDL provides a holistic picture of the data and associations within an application.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            Since the SDL is not tied to a specific programming language, the resulting schema outlines the data model without implementation details. In a schema-first approach, the schema and resolvers are written separately. Since resolvers define how data is retrieved, they must be written in the developer’s chosen programming language.
+          </p>
+
+          <p>
+            For a code-first approach, the process begins with writing types with resolvers directly in the desired programming language. For example, using the “graphql” library in Node.js, the developer can use imported JavaScript objects to create their type definitions with fields and corresponding resolvers. In this approach, the code serves as the schema, and an SDL version can be generated from the code using scripts.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            Each approach has tradeoffs. The schema-first approach divides the type definitions and resolvers, separating concerns. The singular focus makes it easier to understand and quickly share the data model. However, it involves a new language, and the SDL-defined schema is not complete on its own. Additionally, the separation of resolvers can lead to duplication requiring more maintenance over time.
+          </p>
+
+          <p>
+            Unlike the schema-first approach, the code-first approach is self-contained, which means the entire schema is defined in one place. Consequently, the overall structure of the data model can be more challenging to understand in code form.
+          </p>
+
+          <p>
+            As multiple data sources are added, the complexity of a schema grows. Many teams will opt to modularize their schema, separating each data source into its own schema. They will then need a strategy to combine them into a unified schema if they want to maintain the benefits of a single endpoint. There are several ways for the developer to implement this, but each has its own tradeoffs to consider.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            GraphQL’s Schema Definition Language, type definitions, resolvers, and schema writing approaches are fundamental to building a GraphQL API from scratch. While there are libraries to ease the process, it can still take weeks for developers brand new to GraphQL.
+          </p>
+        
+          <h3 id="section-3-4">3.4 Deployment</h3>
+
           <figure>
             <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
           </figure>
-          <h4>3.3.1 Unidirectional v.s. Bidirectional</h4>
+
           <p>
-            SSE’s unidirectional limitation was not an impediment in our use case. Our goal was always to stream content from Kafka to end users, and not vice versa. For a company like SuperEats, having all customers and drivers be able to send a stream of data back to the company’s Kafka cluster may actually open up a new set of challenges that would require additional security and maintenance. That was an additional challenge not warranted by our use case.
+            We’ve discussed a few challenges developers face as they learn how to build a server in this new paradigm, but building the server is only half the battle. The developer still needs to deploy the server for the frontend team to make queries. This process can be complicated and involves many steps.
           </p>
+
           <p>
-            It’s true that we could have still used WebSockets and just chosen to not implement any client-side push back to Kafka. But that would defeat the main purpose of using WebSockets in the first place.
+            When deploying their server to the cloud, there are a variety of platforms a developer might choose. We focus on the most popular Amazon Web Services, also known as AWS. 
           </p>
-          <p>
-            There are also two useful SSE features absent with WebSockets that tipped the scale in favor of using SSE for Fjord: auto-reconnect, and native infrastructure compatibility.
-          </p>
-          <h4>3.3.2 Auto-reconnect</h4>
+
+          <ul>
+            <li>IAM User Roles</li>
+            <li>VPC</li>
+            <li>Public Subnet in VPC</li>
+            <li>Security Group for Public Subnet</li>
+            <li>EC2 Instance in Public Subnet</li>
+            <li>Routing Table</li>
+            <li>Router</li>
+            <li>Internet Gateway
+            </li>
+          </ul>
           
           <p>
-            By default, SSE’s EventSource WebAPI automatically tries to reconnect the client to the server every time the client gets disconnected from the server. Because our use case involved streaming to drivers on mobile devices that may need to switch cell phone towers when driving across town, this seemed like a useful feature.
+            Although this is a rudimentary infrastructure, it still has several resources to be provisioned. A developer must understand these resources and their related services when deploying an API from scratch. 
           </p>
-          <figure>
-            <img src="assets/media/gifs/sse_autoreconnect.gif" class="case-study-image" />
-          </figure>          <p>
-            The auto-reconnect feature also proved useful for auto-scaling purposes. Because, as we’ll explore later, the URL that clients are connected to is actually that of a load balancer, this meant that whenever a server has either crashed or needs to be shut down because of low activity, all of the clients currently receiving data from that server would automatically be reconnected to another existing server. 
-            There was no need for us to configure any additional logic to handle that.
-          </p>
-          <p>
-            The auto-reconnect feature worked in perfect tandem with the load balancer to persist client-server connections.
-          </p>
-          <h4>3.3.3 Native Infrastructure Compatibility</h4>
-          <p>
-            Lastly, the main advantage of SSE has to do with the fact that it works over the standard HTTP protocol and not a more specialized protocol like WebSockets. This means that SSE works right out of the box with all your infrastructure components like load balancers, proxies, etc.
-          </p>
-          <p>
-            Configuring your infrastructure to work with WebSockets is of course possible, but it would require using additional libraries and spending more time around configurations.
-          </p>
-          <p>
-            For all these reasons, we used SSE to stream records from our server to clients.
-          </p>
-          <figure>
-            <img src="assets/media/images/WS vs SSE reworked.svg" class="case-study-image" />
-          </figure>
-          <p>
-            Next, let’s understand why we decided to specifically build an API proxy for Kafka.
-          </p>
-          
-          <h3 id="section-3-5">3.5 Deployment</h3>
+
           <figure>
             <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
           </figure>
-          <h4>3.3.1 Unidirectional v.s. Bidirectional</h4>
+
           <p>
-            SSE’s unidirectional limitation was not an impediment in our use case. Our goal was always to stream content from Kafka to end users, and not vice versa. For a company like SuperEats, having all customers and drivers be able to send a stream of data back to the company’s Kafka cluster may actually open up a new set of challenges that would require additional security and maintenance. That was an additional challenge not warranted by our use case.
+            Currently, AWS offers 200+ services, with more added all the time. You can see an example of these services in figure (number). The sheer volume of services, plus their confusing names and acronyms, has inspired several “AWS in plain English” articles to be written that strive to explain what each service is used for and what it should have been called instead.
           </p>
+
           <p>
-            It’s true that we could have still used WebSockets and just chosen to not implement any client-side push back to Kafka. But that would defeat the main purpose of using WebSockets in the first place.
+            Once the developer learns what resources are needed, they must also make them work together. However, coordinating communication between resources can introduce bugs that take more work to troubleshoot, can be tedious for the developer, and increase the time spent getting a server running for clients to query.
           </p>
+
           <p>
-            There are also two useful SSE features absent with WebSockets that tipped the scale in favor of using SSE for Fjord: auto-reconnect, and native infrastructure compatibility.
+            Finding the right resources is only one hurdle the developer needs to overcome; they must also choose the right ones to support their architecture. This step can be complex and, if done improperly, can affect the performance of their application.
           </p>
-          <h4>3.3.2 Auto-reconnect</h4>
-          
+
           <p>
-            By default, SSE’s EventSource WebAPI automatically tries to reconnect the client to the server every time the client gets disconnected from the server. Because our use case involved streaming to drivers on mobile devices that may need to switch cell phone towers when driving across town, this seemed like a useful feature.
+            AWS provides a few different tools to assist the developer in provisioning resources. First is a graphical interface used to provision resources by hand. Next is a command line interface that can be used to provision resources by interacting with the API.
           </p>
+
           <figure>
-            <img src="assets/media/gifs/sse_autoreconnect.gif" class="case-study-image" />
-          </figure>          <p>
-            The auto-reconnect feature also proved useful for auto-scaling purposes. Because, as we’ll explore later, the URL that clients are connected to is actually that of a load balancer, this meant that whenever a server has either crashed or needs to be shut down because of low activity, all of the clients currently receiving data from that server would automatically be reconnected to another existing server. 
-            There was no need for us to configure any additional logic to handle that.
-          </p>
-          <p>
-            The auto-reconnect feature worked in perfect tandem with the load balancer to persist client-server connections.
-          </p>
-          <h4>3.3.3 Native Infrastructure Compatibility</h4>
-          <p>
-            Lastly, the main advantage of SSE has to do with the fact that it works over the standard HTTP protocol and not a more specialized protocol like WebSockets. This means that SSE works right out of the box with all your infrastructure components like load balancers, proxies, etc.
-          </p>
-          <p>
-            Configuring your infrastructure to work with WebSockets is of course possible, but it would require using additional libraries and spending more time around configurations.
-          </p>
-          <p>
-            For all these reasons, we used SSE to stream records from our server to clients.
-          </p>
-          <figure>
-            <img src="assets/media/images/WS vs SSE reworked.svg" class="case-study-image" />
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
           </figure>
+
           <p>
-            Next, let’s understand why we decided to specifically build an API proxy for Kafka.
+            Both of these tools strive to make provisioning convenient for the developer. However, they both involve dozens of sequential steps to provision and connect the different resources required. In figure (number), you can see an example of some commands that need to be run in the AWS CLI to provision a single EC2 instance. Although this is a simplified example, the documentation for EC2 alone offers 575 commands. This volume is what developers struggle with. Although having many options can be good, navigating them can also be challenging, especially for someone new to infrastructure.
           </p>
-          
-          <!-- Section 4 -->
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            In a small business or non-profit, the responsibility for managing the whole stack falls to a few developers or sometimes a single developer. The rise of mobile apps and the increasing prevalence of “smart” devices require building applications for various client types. The small team will be responsible for adding new frontend clients as needed and building the APIs to support those clients. In addition, as services are outsourced or otherwise distributed, they must deal with more internal and external data sources.
+          </p>
+
+          <p>
+            Large organizations can often afford to dedicate teams of developers to learn the GraphQL specification and implement their API in-house. Smaller organizations may decide early in their initial research that the complexity that GraphQL brings outweighs the benefits. Besides the performance benefits, the secondary goal of switching to GraphQL is to save developer time. If the time spent getting the API running is more than the time saved on the frontend, switching to GraphQL will not appear to be worth it.
+          </p>
+
+          <p>
+            Small teams can benefit from an alternative to building their own GraphQL API. As they explore the GraphQL ecosystem, they will find several existing solutions that can help make the process faster and easier.
+          </p>
+
+           <!-- Section 4 -->
           <h2 id="section-4" class="h2">4. Existing Solutions</h2>
+
           <p>
-            In this section, we will explore Kafka's role as an event streaming platform, why it often serves as the backbone of an organization’s infrastructure, and finally why it's a great conveyor of real-time data.
+            Given the considerable amount of time it takes to learn and implement a GraphQL API, an alternative approach that some teams may consider is using a tool that generates their API. We looked at several options that led us to develop Nexus as an alternative to the existing solutions.
           </p>
 
           <h3 id="section-4-1">4.1 Managed Cloud Services</h3>
+
+          <p>
+            At the highest level of abstraction are managed cloud services like Hasura and StepZen. These are GraphQL API generators that automatically create, manage, and deploy the server for the user.
+          </p>
+
+          <p>
+            With a managed service, setup can be done in just a few minutes, and previous knowledge of GraphQL isn’t required to get an API running. Most managed services support a wide variety of data sources and offer the ability to combine data sources into a unified GraphQL layer. 
+          </p>
+
+          <p>
+            However, a managed service may only support some data sources, so developers must ensure the sources they currently use are supported. If they don’t, they will either have to switch to a service that supports their required data source or start over and build their server from scratch.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            Deployment is also handled entirely by the service. Automated deployment is one of the primary benefits of using a managed service, but it has some tradeoffs. Outsourcing deployment results in a lack of control over the infrastructure that supports the API. There is also no opportunity to optimize the cost of that infrastructure.
+          </p>
+
+          <p>
+            As an added benefit, managed services typically offer a robust set of additional API optimization features, like caching, monitoring, and observability. If the developer needs these other features, they can incorporate them in a few clicks, making them reasonably simple to implement.
+          </p>
+
+          <p>
+            Managed services abstract much of the complexity away from the user, leading to speed and ease of setup. However, they trade off extendability and control. 
+          </p>
+
+          <h3 id="section-4-2">4.2 Open Source Libraries</h3>
+
+          <p>
+            Developers who want additional control and extendability can use several open-source GraphQL API generator libraries, like WunderGraph or GraphQL Mesh.
+          </p>
+
+          <p>
+            Generator libraries help get developers started more quickly than writing GraphQL code from scratch. However, they still require manual setup and configuration, which often involves some basic GraphQL knowledge and library-specific syntax.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            Generator libraries support a wide variety of data sources. Unlike managed services, they are also highly extendable because the developer can access the generated code. For data sources that aren’t supported, the developer can extend the schema manually or with plugins. 
+          </p>
           
-          <h4>4.1.1 EDA as Messaging Pattern for Microservices</h4>
           <p>
-            An event driven architecture (EDA) offers a paradigm that decouples the production and consumption of messages (or events) in order to facilitate inter-microservices communication.
-          </p>
-          <figure>
-            <img src="assets/media/gifs/producer_consumer.gif" class="case-study-image" />
-          </figure>
-          <p>
-            By adding a broker in between the microservices that generate events (“producers”) and the microservices that receive events (“consumers”), an EDA allows microservices to communicate with each other without even being aware of each other’s existence.
-          </p>
-          <p>
-            The three main architectural pieces of EDAs therefore include:
-          </p>
-          <ol>
-            <li><strong>Producers</strong> that generate and send events to a broker,
-            </li>
-            <li>The routing of events through a <strong>Broker</strong> that acts as a middleware, and
-            </li>
-            <li><strong>Consumers</strong> that have access to any data they need from the broker.
-            </li>
-          </ol>
-          
-          <p>
-            At the core of EDAs are <strong>events</strong>. An event is any significant occurrence or change in state for a distributed system. An event contains both a payload describing the systemic change or action that occurred, as well as a timestamp of when it occurred.
-          </p>
-          
-          <figure>
-            <img src="assets/media/images/json.png" class="case-study-image" />
-          </figure>
-
-          <p>
-            Producers create and send events to the same broker, and then move on with their own business logic process, completely unaware of what happens to the event afterward.
-          </p>
-          <figure>
-            <img src="assets/media/images/edaServices.png" class="case-study-image" />
-          </figure>
-
-          <p>
-            All consumers that are interested in this particular event can then read it from the broker. For example, the inventory, billings, and delivery services could all react to the same order event. Events are immutable (i.e. they cannot be edited), but they may expire or be deleted.
+            The ability to add data sources is only one of many ways the developer can extend their server. They can also utilize plugins to add more advanced features. If there isn’t a plugin for their needs, they can manually extend their code to fit their use case. Extensibility is one of the main benefits of using open-source libraries and why a developer may choose to use them.
           </p>
 
-          <h4>4.1.2 Open Source Libraries</h4>
           <p>
-            Traditional EDAs simplify communication between microservices and are typically based on a message queue model. However, they also present a new set of challenges.
+            Although generator libraries help create the server, they do not deploy the server for the developer once it is generated. Some libraries have documentation that may include basic deployment guides for different cloud providers and architectures, but they do not typically provide direct assistance with deployment. Without deployment assistance, developers fully control their infrastructure decisions and cost. Ultimately, this comes at the expense of the developer’s time and the deployment complexity we described previously.
           </p>
-          <p>
-            In the traditional EDA model, the broker wears many hats. It has to:
-          </p>
-          <ol>
-            <li>Push events to each appropriate consumer interested in that event,
-            </li>
-            <li>Keep track of which event was last consumed by each consumer (the “offset” or index), and this for all consumers, and
-            </li>
-            <li>Delete each event as soon as it is read by the appropriate consumer.
-            </li>
-          </ol>
-          <p>
-            The broker’s workload therefore grows in proportion to the number of consumers and events it must service. More events mean more work and more time is required for the broker to process the events.
-          </p>
-
-          <h4>4.1.3 Event Streaming</h4>
-          <p>
-            To handle an extremely high flow of events, event streaming platforms were born. They are still considered a subset of EDAs because they have the same three components of producers, consumers, and a middleware broker. However, they are designed to handle a higher velocity of events than traditional EDAs.
-          </p>
-
-          <figure>
-            <img src="assets/media/images/eda vs event streaming.png" class="case-study-image" />
-          </figure>
-
-          <p>
-            The main paradigm shift and key differentiating factor behind event streaming platforms is that the broker actually does <em>less</em> work than it does in the traditional EDA model.
-          </p>
-          <p>
-            Instead of the broker pushing events to all consumers, each consumer is responsible for pulling each record from the broker. The broker similarly does not have to worry about keeping track of the offset of each consumer, since each consumer handles their own offset themselves.
-          </p>
-          <p>
-            Finally, the broker does not have to delete events. While traditional EDA technologies use a <strong>queue-based</strong> structure, where events are deleted after they’re consumed, event streaming platforms use a <strong>log-based</strong> structure to durably store events.
-          </p>
-          <figure>
-            <img src="assets/media/gifs/kafka.gif" class="case-study-image" />
-          </figure>
-          <p>
-            With event streaming, newly added consumers can not only pick up newly received events, but they can also start to stream records from the very beginning of the log’s creation. This is, of course, only possible because events are not deleted after they are read.
-          </p>
-          <p>
-            In order to ensure a scalable event streaming platform, where we place more business logic becomes significant. With traditional EDA technologies, the broker holds the bulk of the integration logic. Consumers just receive whatever is sent to them by the broker. 
-            This sets up the <em>“Smart Broker, Dumb Consumer”</em> approach.
-          </p>
-          <p>
-            In contrast, event streaming platforms opt for the <em>“Dumb Broker, Smart Consumer”</em> approach, placing more integration logic on each consumer instead. This enables a high volume and velocity of events, because there’s a significantly lower relationship between the number of events and consumers on the one hand, and the amount of work the broker needs to do on the other.
-          </p>
-          <p>
-            In other words, increasing either the pace of events that are entering the system, or the number of consumers reading from the 
-            broker, has a much less noticeable impact on the additional work the broker needs to do.
-          </p>
-          <p>
-            This finally leads us to our next point, the gold standard in event-streaming platforms: Apache Kafka.
-          </p>
-          <h3 id="section-4-2">4.2 The rise of Apache Kafka</h3>
-          <p>
-            If data is the lifeblood of an organization, then Apache Kafka is like the organization’s circulatory system. Kafka offers a powerful, scalable, efficient, and redundant infrastructure that allows your distributed services to communicate with each other in real-time.
-          </p>
-          <figure>
-            <img src="assets/media/images/kafka-logo.png" class="case-study-image" />
-          </figure>
-          <p>
-            The technology was created at LinkedIn out of a need to track vast numbers of site events like page views and user actions, as well as to aggregate large quantities of logs from disparate sources within its distributed architecture. It later became an open source project of the Apache Foundation in 2011.
-          </p>
-          <p>
-            Kafka was designed to be used to manage machine to machine communication. Kafka’s custom <strong>binary protocol</strong> over TCP is built to take advantage of advanced TCP features (e.g., the ability to multiplex requests and the ability to simultaneously poll any connections). 
-          </p>
-          <p>
-            Kafka is optimized to handle extremely high throughput of messages. Back in 2019, LinkedIn was already processing <strong>7 trillion</strong> messages per day on their Kafka clusters. This is probably much higher today.
-          </p>
-          <p>
-            Today, over <strong>80% of all Fortune 100</strong> companies use Kafka.
-          </p>
-          <figure>
-            <img src="assets/media/images/brandsUsingKafka.png" class="case-study-image" />
-          </figure>
 
           <h3 id="section-4-3">4.3 Nexus</h3>
+
           <p>
-            A company like SuperEats can use Kafka to set up an infrastructure that can scale as the business grows, without worrying about performance issues down the line.
-          </p>
-          <figure>
-            <img src="assets/media/gifs/supereats.gif" class="case-study-image" />
-          </figure>
-          <p>
-            Kafka’s high throughput capacity makes it an ideal candidate to serve real-time events to end users. Kafka is also able to segregate streams of data into any number of topics, which themselves are further divided into multiple partitions. Each partition can have replicas on different brokers, which ensures redundancy in case a broker fails.
-          </p>
-          <p>
-            Kafka provides yet another useful component not found in all event streaming platforms--a <strong>key</strong>. Kafka records have both a payload and a timestamp just like typical EDA events do. However, the payload of a Kafka record is itself comprised of two components:  a key and a value. The record <strong>value</strong> holds the actual business data. But the record <strong>key</strong> can be a very useful tool to not only further segregate data, but to also ensure in-order delivery.
-          </p>
-          <p>
-            SuperEats needs a way to segregate data streams by activity type (e.g. incoming order v.s. Driver GPS position), by restaurant, and by customer or driver. For example, SuperEats could have one topic be <span class="code-snippet">orders</span>, and another topic be <span class="code-snippet">driver GPS</span> information. 
-          </p>
-          <p>
-            Within the <span class="code-snippet">order</span> topic, the <strong>key</strong> of all records should probably be some type of concatenation of three components: the restaurant's, the customer’s, and the order’s unique identifiers. Because Kafka stores all records of the same key on the same partition, this would ensure that all the information related to order 2235407 for Jane4022354 from restaurant 72544986 would be stored on the same partition, and read in-order.
-          </p>
-          <p>
-            The <span class="code-snippet">order</span> topic’s record <strong>value</strong> would itself contain information regarding the status of the order, the contents of the order, the restaurant's address, the customer's address, etc.
-          </p>
-          <p>
-            Within the <span class="code-snippet">driver GPS</span> topic, the <strong>key</strong> would probably be the driver’s unique identifier. The <strong>value</strong> would contain the actual GPS data.
-          </p>
-        
-          <p>
-            In the next section, we’ll dive deeper into why you need an API proxy if you want to allow clients to stream from a Kafka cluster.
+            Nexus is a framework for quickly generating a GraphQL API from multiple data sources and deploying the API to a user’s AWS account. We wrap several open-source tools for API generation and deployment, speeding up the configuration and use of those tools. We built Nexus for teams who would like to build and deploy a simple GraphQL API in just a few minutes, with the option to extend it over time.
           </p>
 
+          <p>
+            Nexus uses GraphQL Mesh, a powerful GraphQL API generator, to build the user’s server. We reduced the configuration of this open-source library to a few simple commands, so no experience with GraphQL or the Mesh library is needed to get started.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            Nexus currently supports three data sources: Postgres, REST APIs, and GraphQL APIs. If a data source is not supported, the user can extend their API using Mesh’s collection of additional sources or manually extend the schema.
+          </p>
+
+          <p>
+            After the server is generated, Nexus deploys the GraphQL server with a single command. We simplify deployment by abstracting away infrastructure setup and making a few decisions for the user. The deployed infrastructure is then provisioned entirely in their AWS account and is fully modifiable by the user.
+          </p>
+
+          <p>
+            Although Nexus offers many beneficial features, we don’t provide advanced options for fine-tuning the API like managed services. As a result, users have some of the benefits of extendability and ownership that come with an open-source library, along with some of the deployment abstractions of a managed service, at the cost of advanced API features. However, users can add features as needed because the generated code lives on their local machine.
+          </p>
+        
           <!-- Section 5 -->
           <h2 id="section-5" class="h2">5. Nexus Walkthrough</h2>
           <h3 id="section-5-1">5.1 Download and Setup</h3>
