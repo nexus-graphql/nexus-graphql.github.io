@@ -66,14 +66,6 @@ body {
   background-color: black;
 }
 
-.bg-blue {
-  background-color: var(--fjord-blue);
-}
-
-.bg-light-blue {
-  background-color: var(--fjord-light-blue);
-}
-
 .bg-dark-blue {
   background-color: var(--nexus-dark-blue);
 }
@@ -254,7 +246,7 @@ body {
 }
 
 #toc a:hover {
-  color: var(--fjord-blue);
+  color: var(--nexus-dark-blue);
 }
 
 #toc .selected a {
