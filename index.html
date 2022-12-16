@@ -1136,7 +1136,7 @@
             We’d now like to highlight a few of the technical challenges we encountered as we built Nexus.
           </p>
 
-          <h4>7.1 Connecting Multiple Data Sources</h4>
+          <h3 id="section-7-1">7.1 Connecting Multiple Data Sources</h3>
 
           <p>
             After users have initialized their Nexus project, they have a GraphQL API that each client can query for the data they need. While each data source has been combined in the unified schema, there’s still a problem.
@@ -1202,7 +1202,8 @@
             <img src="assets/media/diagrams/51.png" class="case-study-image" />
           </figure>
 
-          <h4>7.2 Hot Reloading</h4>
+          <h3 id="section-7-2">7.2 Hot Reloading</h3>
+
           <p>
             When the user changes the server on the dashboard, as we saw with connecting two data sources, locally testing these changes is a logical next step. To assist with testing, we run a local development server accessible within the dashboard.
           </p>
@@ -1231,8 +1232,8 @@
             By implementing this hot reloading function, we avoid outdated information in the user’s test server and prevent them from shutting down the entire Dashboard any time they change their server.
           </p>
 
-          <h4>7.3 Time To Redeploy</h4>
-          
+          <h3 id="section-7-3">7.3 Time To Redeploy</h3>
+
           <p>
             In addition to reloading the dashboard’s local development server on user changes, we needed a clear redeployment workflow. As users shift their focus from configuring to testing, they may forget to redeploy the changes they’ve made. To help remind them that their local server is out of sync with their deployed server, we implemented a basic change notification system.
           </p>
