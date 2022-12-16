@@ -649,6 +649,12 @@ img.icon {
   justify-content: center;
 }
 
+#start-here .bg-pink {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 #start-here .bg-light-blue h2 {
   font-size: 2rem;
   font-weight: 800;
