@@ -291,7 +291,7 @@ body {
 }
 
 #toc .selected a:hover .bullet div {
-  background-color: var(--nexus-pink);
+  background-color: var(--nexus-dark-blue);
 }
 
 #toc .selected .bullet {
@@ -299,7 +299,7 @@ body {
 }
 
 #toc .selected .bullet div {
-  background-color: var(--nexus-pink);
+  background-color: var(--nexus-dark-blue);
 }
 
 #toc .subitem {
