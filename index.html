@@ -385,6 +385,14 @@
           </a>
         </li>
         <li data-section="section-6" class="subitem">
+          <a href="#section-6-1.1">
+            <div>
+              <div class="bullet"><div></div></div>
+              <p>6.1.1 Initializing the Server and Integrating Data Sources</p>
+            </div>
+          </a>
+        </li>
+        <li data-section="section-6" class="subitem">
           <a href="#section-6-2">
             <div>
               <div class="bullet"><div></div></div>
@@ -392,53 +400,12 @@
             </div>
           </a>
         </li>
-        <li data-section="section-6" class="subitem">
-          <a href="#section-6-3">
-            <div>
-              <div class="bullet"><div></div></div>
-              <p>6.3 Manage the Server</p>
-            </div>
-          </a>
-        </li>
-        <li data-section="section-6" class="subitem">
-          <a href="#section-6-4">
-            <div>
-              <div class="bullet"><div></div></div>
-              <p>6.4 Nexus Implementation Challenges</p>
-            </div>
-          </a>
-        </li>
-        <li data-section="section-6" class="subitem">
-          <a href="#section-6-5">
-            <div>
-              <div class="bullet"><div></div></div>
-              <p>6.5 Hot Reloading</p>
-            </div>
-          </a>
-        </li>
-        <li data-section="section-6" class="subitem">
-          <a href="#section-6-6">
-            <div>
-              <div class="bullet"><div></div></div>
-              <p>6.6 Time to Redeploy</p>
-            </div>
-          </a>
-        </li>
-        <li data-section="section-6" class="subitem">
-          <a href="#section-6-7">
-            <div>
-              <div class="bullet"><div></div></div>
-              <p>6.7 Connecting Multiple Data Sources</p>
-            </div>
-          </a>
-        </li>
 
-        <!-- Section 7 -->
         <li data-section="section-7">
           <a href="#section-7">
             <div>
               <div class="bullet"><div></div></div>
-              <p>7. Future Work</p>
+              <p>7. Nexus Implementation Challenges</p>
             </div>
           </a>
         </li>
@@ -446,7 +413,15 @@
           <a href="#section-7-1">
             <div>
               <div class="bullet"><div></div></div>
-              <p>7.1 Customization of the GraphQL Schema</p>
+              <p>7.1 Connecting Multiple Data Sources</p>
+            </div>
+          </a>
+        </li>
+        <li data-section="section-7" class="subitem">
+          <a href="#section-7.1.1">
+            <div>
+              <div class="bullet"><div></div></div>
+              <p>7.2 Hot Reloading</p>
             </div>
           </a>
         </li>
@@ -454,15 +429,41 @@
           <a href="#section-7-2">
             <div>
               <div class="bullet"><div></div></div>
-              <p>7.2 Multi-Cloud Deployment</p>
+              <p>7.3 Time to Redeploy</p>
             </div>
           </a>
         </li>
-        <li data-section="section-7" class="subitem">
-          <a href="#section-7-3">
+
+        <!-- Section 8 -->
+        <li data-section="section-8">
+          <a href="#section-8">
             <div>
               <div class="bullet"><div></div></div>
-              <p>7.3 Allowing Additional Data Sources</p>
+              <p>8. Future Work</p>
+            </div>
+          </a>
+        </li>
+        <li data-section="section-8" class="subitem">
+          <a href="#section-8-1">
+            <div>
+              <div class="bullet"><div></div></div>
+              <p>8.1 Customization of the GraphQL Schema</p>
+            </div>
+          </a>
+        </li>
+        <li data-section="section-8" class="subitem">
+          <a href="#section-8-2">
+            <div>
+              <div class="bullet"><div></div></div>
+              <p>8.2 Multi-Cloud Deployment</p>
+            </div>
+          </a>
+        </li>
+        <li data-section="section-8" class="subitem">
+          <a href="#section-8-3">
+            <div>
+              <div class="bullet"><div></div></div>
+              <p>8.3 Allowing Additional Data Sources</p>
             </div>
           </a>
         </li>
@@ -924,186 +925,142 @@
           <!-- Section 5 -->
           <h2 id="section-5" class="h2">5. Nexus Walkthrough</h2>
           <h3 id="section-5-1">5.1 Download and Setup</h3>
-          <p>
-            Kafka is a robust event streaming platform great for handling high volumes of events flowing between a relatively manageable number of producers and consumers. It uses a proprietary binary protocol designed to facilitate machine to machine communication.
-          </p>
-          <figure>
-            <img src="assets/media/gifs/transport_protocol.gif" class="case-study-image" />
-          </figure>
-          <p>
-            However, internet facing end users use their mobile phones, laptops, tablets and desktops and use the HTTP/S protocol. 
-            As we saw earlier, the choice here is to leverage SSE and receive a continuous stream of data without any additional effort from the end user. There is a <strong>clear mismatch</strong> between Kafka and the end-user's protocol of consuming streams of data.
-          </p>
-
-          <h3 id="section-5-2">5.2 Initializing GraphQL API Server</h3>
-          <p>
-            An API proxy can be designed to tackle the challenges of moving Kafka data online for public consumption. An API proxy is generally a server that sits between your web application and a backend service. Developers can build web applications using the set of API endpoints without knowing anything about the back-end.
-          </p>
-          <figure>
-            <img src="assets/media/gifs/api proxy.gif" class="case-study-image" />
-          </figure>
-          <p>
-            By positioning an API proxy between Kafka and the web, the API proxy can pull data from Kafka over Kafka’s binary protocol, and can push that data to connected devices in real-time via SSE, which is delivered over the HTTP protocol.
-          </p>
-
-          <h3 id="section-5-3">5.3 Adding Other Data Sources</h3>
-          <p>
-            An API Proxy not only makes client-side streaming from Kafka possible, but it also provides some additional benefits.
-          </p>
-          
-          <div>
-            <ul class="chart">
-              <li>
-                <img src="assets/media/images/security_layer.png" class="icon" />
-                Letting end users connect directly to Kafka would present some significant security risks. Using a proxy provides an additional layer of security in between end users and your Kafka cluster.
-              </li>
-              <li>
-                <img src="assets/media/images/external_fanout.png" class="icon" />
-                An API proxy allows you to fanout Kafka records to thousands of end users over HTTP, significantly reducing the number of direct connections to your Kafka cluster. Using a proxy also allows you to dynamically scale the servers up and down to respond to external user traffic.
-              </li>
-              <li>
-                <img src="assets/media/images/customizable_api.png" class="icon" />
-                Having an additional layer between Kafka and end users enables more customizations, so you can group various Kafka topics from different Kafka clusters into any number of API end-points with any custom names you want.
-              </li>
-              <li>
-                <img src="assets/media/images/paas.png" class="icon" />
-                This additional messaging layer allows you to offload the resource-intensive task of real-time streaming to an external infrastructure, so you can focus on value creation activities that are central to your business.
-              </li>
-            </ul>
-          </div>
-          
-          <h3 id="section-5-4">5.4 Testing the Server</h3>
-          <p>
-            An API Proxy not only makes client-side streaming from Kafka possible, but it also provides some additional benefits.
-          </p>
-
-          <h3 id="section-5-5">5.5 Deployment</h3>
-          <p>
-            An API Proxy not only makes client-side streaming from Kafka possible, but it also provides some additional benefits.
-          </p>
-
-          <h3 id="section-5-6">5.6 Dashboard</h3>
-          <p>
-            An API Proxy not only makes client-side streaming from Kafka possible, but it also provides some additional benefits.
-          </p>
-
-          <h3 id="section-5-7">5.7 Destroy</h3>
-          <p>
-            An API Proxy not only makes client-side streaming from Kafka possible, but it also provides some additional benefits.
-          </p>
-
-          <!-- Section 6 -->
-          <h2 id="section-6" class="h2">6. Nexus Architecture</h2>
-          <h3 id="section-6-1">6.1 Generating the Server</h3>
-          <p>
-            If SuperEats wanted to use an existing, paid solution, what options would there be?
-          </p>
-          <figure>
-            <img src="assets/media/images/existingSolutions.png" class="case-study-image" />
-          </figure>
-          <p>
-            Ably, PubNub and MigratoryData offer specialized services for Kafka. All of these companies offer feature-rich, highly scalable solutions. The main downside of these services is that you pay a high price for the convenience and ease of use, and you’re locked into their ecosystems.
-          </p>
-          <h3 id="section-6-2">6.2 Deploying the Server</h3>
-          <p>
-            If you wish to go the Do-It-Yourself (DIY) route, you will find many open-source platforms and services to help you accomplish this goal.
-          </p>
-          <figure>
-            <img src="assets/media/images/DIY.png" class="case-study-image" />
-          </figure>
-          <p>The downside to this approach is the time, energy and expertise it requires to connect everything together. Installing and connecting all the different components is a challenge in itself, not to mention deploying and maintaining this infrastructure.
-          </p>
-          <p>
-            If you want to add scalability into the mix, you have to understand how these components handle load and how to effectively tweak them to meet your use case. This is not always a realistic approach for small to medium sized companies.
-          </p>
-          <h3 id="section-6-3">6.3 Managing the Server</h3>
-          <p>Fjord positions itself in between the paid services and the DIY approach.
-          </p>
-          <figure>
-            <img src="assets/media/images/solutions_chart.png" class="case-study-image" />
-          </figure>
-          
-          <h3 id="section-6-4">6.4 Nexus Implementation Challenges</h3>
-          <p>Fjord positions itself in between the paid services and the DIY approach.
-          </p>
-
-          <h4>6.4.1 Hot Reloading</h4>
-          <p>Fjord positions itself in between the paid services and the DIY approach.
-
-          <h4>6.4.2 Time To Redeploy</h4>
-          <p>Fjord positions itself in between the paid services and the DIY approach.
-
-          <h4>6.4.3 Connectin Multiple Data Sources</h4>
-          <p>Fjord positions itself in between the paid services and the DIY approach.
-
-          <!-- Section 7 -->
-          <h2 id="section-7" class="h2">7. Future Work</h2>
-          <h3 id="section-7-1">7.1 Customization of the GraphQL Schema</h3>
-
-          <p>Let’s first look at a high-level view of how an organization like SuperEats would integrate Fjord into their infrastructure.</p>
-          
+         
           <figure>
             <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
           </figure>
 
           <p>
-            First, SuperEats drivers, customers, and any restaurants working with SuperEats would all connect to the SuperEats web servers on a mobile app or a browser via HTTP/S (e.g., to SuperEats.com).
+            Nexus is available as an NPM package. Global installation gives users access to all the commands and a local admin dashboard. Prerequisites and installation instructions are listed in the Readme section of our GitHub repository.
           </p>
 
           <figure>
-            <img src="assets/media/gifs/end_users_superEats.gif" class="case-study-image" />
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
           </figure>
 
+          <h3 id="section-5-2">5.2 Initializing GraphQL API Server</h3>
+        
           <p>
-            These servers would deliver, via either a mobile app or a browser, a page that initiates an SSE connection with (i.e. receives push updates from) the Fjord cluster deployed on SuperEats’ AWS account.
+            After installation, the user can initialize a new project with the init command. They’ll run this in an empty project folder where we’ll generate their server files. We collect a Postgres database as the primary data source. To avoid confusing bugs when the server is generated, the Postgres connection string is validated for the user when they input it.
           </p>
 
           <figure>
-            <img src="assets/media/gifs/supereats_responds_sse.gif" class="case-study-image" />
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
           </figure>
 
           <p>
-            Fjord, in turn, would pull records from SuperEats’ Kafka cluster, and deliver them to connected clients who are interested in particular API topics.
+            Behind the scenes, we install the necessary packages and create the configuration files to generate and run the GraphQL server in the user’s current working directory. They now have a basic GraphQL server built from their Postgres database with a single command.
+          </p>
+
+          <h3 id="section-5-3">5.3 Adding Other Data Sources</h3>
+          
+          <p>
+            Adding a second data source is similar to adding the initial Postgres database. The `nexus add` command will prompt the user for the data source type and then tailor subsequent prompts based on that source type. This command can add REST endpoints, a remote GraphQL API, or another Postgres database.
           </p>
 
           <figure>
-            <img src="assets/media/gifs/pull_and_deliver.gif" class="case-study-image" />
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
           </figure>
 
           <p>
-            It’s important to note that SuperEats drivers and customers are not aware that they are also receiving a data stream from Fjord. From their perspective, all they see is that they’re connected to the SuperEats domain or app.
-          </p> 
-
-          <p>
-            This allows SuperEats to deliver customized content that has the look and feel of their own website, without having to deal with the additional streaming load on their servers.
-          </p>
-
-          <p>This structure is commonly referred to as the triangular pattern.</p>
-
-
-          <h3 id="section-7-2">7.2 Multi-Cloud Deployment</h3>
-          <p>We designed Fjord with four main goals in mind:</p>
-          <ul>
-            <li><strong>API Proxy</strong>: open Kafka topics to client-side streaming,</li>
-            <li><strong>Security</strong>: enable Fjord business users to restrict access to their Kafka stream through security parameters,</li>
-            <li><strong>Scalability</strong>: create a scalable platform-as-a-service (PaaS) infrastructure, and</li>
-            <li><strong>Ease of deployment</strong>: make deploying Fjord super simple.</li>
-          </ul>
-          <p>
-            In the next section, we’ll walk through the evolution of how we built Fjord to achieve these design goals, and address some of the key decisions we made along the way.
+            REST endpoints are included using a local path or remote URL to a JSON file that defines the user’s endpoints following the OpenAPI specification. Adding a GraphQL data source can be done by providing the URL of the API.
           </p>
           
-          <h3 id="section-7-3">7.3 Allowing Additional Data Sources</h3>
+          <h3 id="section-5-4">5.4 Testing the Server Locally</h3>
+
           <p>
-            Fjord’s primary components are the server that maintains persistent SSE connections with clients, and the consumer that pulls data from Kafka and moves it to the server.
+            After the user initializes their server and adds one or more data sources, they can test their API locally by running the `nexus dev` command. This opens a graphical interface for exploring the unified schema and making test queries. The test server supporting this interface is identical to the server that will be deployed, so it can be used to accurately pre-plan client queries.
           </p>
+
           <figure>
-            <img src="assets/media/gifs/decoupling 1.gif" class="case-study-image" />
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
           </figure>
-          <h4>7.3.1 Setting up a real-time streaming server</h4>
+
+          <h3 id="section-5-5">5.5 Deployment</h3>
+
           <p>
-            Our first step was to build a server that could stream content in real-time to connected clients. To do this, we experimented with SSE and WebSockets, before settling on SSE for our particular use case. After configuring the server, we moved on to extracting data from Kafka.
+            Nexus simplifies the deployment process down to a single command: `nexus deploy`. This command handles all the complexity of packaging the server code and provisioning the infrastructure. 
           </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <h3 id="section-5-6">5.6 Dashboard</h3>
+
+          <p>
+            Once the server is deployed, the user can use the `nexus dashboard` command to run a local dashboard that displays information about their API. This includes their deployed server's status, endpoint, authorization key, and current data sources. Additionally, they can add, edit, or delete data sources from their dashboard. An integrated local test server is included in the “GraphiQL” tab.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            If the user makes changes to the data sources, a message will alert them to redeploy. Redeployment can be done in the dashboard with a single click or with the `nexus redeploy` command.
+          </p>
+
+          <h3 id="section-5-7">5.7 Destroy</h3>
+         
+          <p>
+            If the user wants to remove the provisioned infrastructure at any time, they can use the destroy command to deprovision all AWS services that have been set up.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            Since the infrastructure is deployed to their AWS account, they can make changes directly within the AWS console. However, the destroy command ensures all services are removed at once so the user is not charged for services that could be overlooked with manual de-provisioning.
+          </p>
+
+          <!-- Section 6 -->
+          <h2 id="section-6" class="h2">6. Nexus Architecture</h2>
+
+          <p>
+            Next, we will go into the technical aspects of how Nexus was built and some of the decisions we made along the way. We can illustrate the Nexus workflow in two parts: generating the GraphQL API Server and deploying it.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <h3 id="section-6-1">6.1 Generating the Server</h3>
+        
+          <p>
+            One of the initial problems we had to solve was generating a schema from a database. There are several libraries built for this purpose, and we initially explored one of them: Postgraphile. Postgraphile allowed us to generate a GraphQL schema from a Postgres database, but it could not generate schemas from other data sources. This was a problem because we wanted the ability to support more than one data source.
+          </p>
+
+          <p>
+            We explored using additional libraries alongside Postgraphile to accomplish our goal, but we ultimately found another library that could handle our desired use case: GraphQL Mesh. Nexus wraps Graphql Mesh to generate schemas and combine them into a unified GraphQL API. Ultimately, this allows users to have one endpoint that interacts with multiple data sources. 
+          </p>
+
+          <h4 id="section-6-1.1">6.1.1 Initializing a Server and Integrating Data Sources</h4>
+
+          <h3 id="section-6-2">6.2 Deploying the Server</h3>
+          
+
+
+          <h3 id="section-7">7 Nexus Implementation Challenges</h3>
+          <p>Fjord positions itself in between the paid services and the DIY approach.
+          </p>
+
+          <h4>7.1 Hot Reloading</h4>
+          <p>Fjord positions itself in between the paid services and the DIY approach.
+
+          <h4>7.2 Time To Redeploy</h4>
+          <p>Fjord positions itself in between the paid services and the DIY approach.
+
+          <h4>7.3 Connectin Multiple Data Sources</h4>
+          <p>Fjord positions itself in between the paid services and the DIY approach.
+
+          <!-- Section 8 -->
+          <h2 id="section-8" class="h2">8. Future Work</h2>
+          <h3 id="section-8-1">8.1 Customization of the GraphQL Schema</h3>
+
+          <h3 id="section-8-2">8.2 Multi-Cloud Deployment</h3>
+          
+          <h3 id="section-8-3">8.3 Allowing Additional Data Sources</h3>
         </div>
       </div>
     </div>
