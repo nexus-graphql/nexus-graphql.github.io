@@ -484,33 +484,27 @@
 
           <!-- Section 1 -->
           <h2 id="section-1">1. What is Nexus?</h2>
-
           <p>
-            Nexus is an open-source GraphQL framework that generates an instant GraphQL API from a user's existing data sources.
+            Nexus is an open-source framework that generates and deploys a GraphQL API from a user’s existing data sources. We simplify the user's setup by providing a CLI tool and admin dashboard. Data sources can be added, removed, and changed without writing any new code or schemas. Additionally, users can test the generated GraphQL API locally with an integrated graphical interface. This interface exposes the API’s documentation and serves as a playground for making test queries and viewing responses. Finally, when the API is ready to deploy, Nexus automates deployment to AWS.
           </p>
 
           <p>
-            Nexus is an open-source framework that generates and deploys a GraphQL API from a user’s existing data sources. We make the setup for the user easy by providing a CLI tool and admin dashboard. Data sources can be added, removed, and changed without writing any new code or schemas. Additionally, users can test the generated GraphQL server locally with an integrated graphical interface. This interface exposes the entire API’s documentation and serves as a playground for making test queries and viewing responses. Lastly, when the server is ready to deploy, Nexus automates deployment to AWS.
-          </p>
-
-          <p>
-            In this case study, we will introduce APIs, GraphQL, and how to implement GraphQL.
-Additionally, we discuss how and why Nexus was built and the features we hope to develop in the future. The main goal for Nexus was to efficiently deploy an auto-generated GraphQL server that connects to multiple data sources. Before we dive deeper into Nexus, let’s begin by discussing what an API is and how it can be used.
+            In this case study, we will introduce APIs, GraphQL, and the challenges developers face when implementing GraphQL APIs. Furthermore, we discuss how and why Nexus was built and the features we hope to develop in the future. The main goal of Nexus was to efficiently deploy an auto-generated GraphQL server that connects to multiple data sources. Before diving deeper into Nexus, let’s discuss what an API is and how it can be used.
           </p>
   
           <!-- Section 2 -->
           <h2 id="section-2" class="h2">2. APIs</h2>
 
           <p>
-            An API, or Application Programming Interface, is a way to share data across different systems. This is similar to how a mouse, keyboard, or screen is used as an interface to transfer data between humans and computers. 
+            An API, or Application Programming Interface, is a way to share data across different systems. This is similar to how a mouse, keyboard, or screen is used as an interface to transfer data between humans and computers. An API is a layer that standardizes and abstracts the inner workings of two separate systems, allowing them to communicate fluidly. An API is a layer that standardizes and abstracts the inner workings of two separate systems, allowing them to communicate fluidly.
           </p>
 
-          <p>
-            An API is a layer that standardizes and abstracts the inner workings of two separate systems, allowing them to communicate fluidly.
-          </p>
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
   
           <p>
-            Web applications are commonly split into two major parts: the “frontend” and the “backend." These parts are decoupled to separate concerns. The frontend handles how a web page looks and user interaction with the page. In contrast, the backend accesses databases and handles business logic. By decoupling, the development workflow is optimized, allowing separate languages, libraries, and frameworks to be used. 
+            Web applications are commonly split into two major parts: the “frontend” and the “backend." These parts are decoupled to separate concerns. The frontend handles how a web page looks and user interaction with the page. In contrast, the backend accesses databases and handles business logic. The development workflow is optimized by decoupling, allowing separate languages, libraries, and frameworks to be used.
           </p>
 
           <p>
@@ -519,33 +513,106 @@ Additionally, we discuss how and why Nexus was built and the features we hope to
 
           <h3 id="section-2-1">2.1 REST</h3>
 
+          <p>
+            A RESTful API provides endpoints corresponding to the application's significant resources. REST utilizes the HTTP protocol to define actions that can be taken on those resources via HTTP methods. Following REST conventions, the API is standardized, typically allowing the user to infer an endpoint's intention. For example, sending a GET request to a /books endpoint would send back information on all books, whereas a GET request to /books/:id would send back information about a specific book.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+  
+          <p>
+            REST has become the dominant pattern for building web application APIs. By some estimates, over 89% of APIs today follow REST conventions. One reason for its popularity is that REST is simple for developers to understand and build. It interacts well with other building blocks of web architecture, like the HTTP protocol. REST particularly shines in applications where client pages correspond directly with REST endpoints. 
+          </p>
+
+          <p>quote</p>
+
+          <p>
+            Although REST has many benefits, issues can arise when a new frontend use case is integrated with an existing REST API. Consider a hypothetical bookstore, a web application supported by a REST API. When a new mobile application is introduced, a few problems become more prevalent.
+          </p>
+
           <h3 id="section-2-2">2.2 Under-fetching and Over-fetching Data</h3>
+
+          <p>
+            Due to a mobile device's limited screen size, fewer book details can be displayed on the catalog screen, and therefore less data is needed from the API to load this page. Figure (number) illustrates this difference in design between the desktop and mobile applications. Details such as publisher, publish date, and format are not part of the mobile application’s catalog page.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            When the frontend developer fetches the data to display this page, they make a request to the pre-existing /books endpoint designed for the desktop application. Since the REST API has not yet been adapted for this new use case, the current endpoint returns information that doesn’t fit the mobile application's data needs. This is known as over-fetching. Figure (number) shows the /books endpoint’s response which has all the book information, but the mobile application doesn’t need all of that data.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            More data transferred in each request means longer wait times for the frontend to receive and process the data. Over-fetching can lead to a user experiencing higher response times, resulting in a slower page load. Sending too much data is especially problematic on mobile devices. Mobile networks have less bandwidth, which means slower data transfer. A typical page takes ~88% longer to load on mobile devices than on a desktop. This bookstore example is simplified; as applications scale, the user experience on a mobile device can degrade to the point where users may leave before the page loads.
+          </p>
+
+          <p>
+            Another part of the mobile application needs to load a cart page that lists which books a user has in their cart. Books and carts are represented by separate endpoints in the API, so the frontend developers must make multiple requests to fetch all the necessary information to load the cart. Since one endpoint doesn’t contain all the required data, they are “under-fetching.” Under-fetching can cause a “waterfall” effect of requests cascading to many more related requests, resulting in multiple round trips between the client and server.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            The time it takes for a request to be sent over the network from client to server and back is known as round-trip latency. While round-trip latency varies, it can take roughly 207ms on average. When under-fetching leads to additional unnecessary round-trips, the latency from the other requests can significantly increase page load time. Every five additional requests might lead to 1000ms of load time. Since many users will leave a page that is still loading after 10,000ms, even a handful of unnecessary requests can contribute to lost users.
+          </p>
+
+          <figure>
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
+          </figure>
+
+          <p>
+            Beyond application performance, over-fetching and under-fetching affect frontend developer productivity. When an API does not match their frontend client’s data needs well, developers must spend additional time orchestrating many requests and filtering unnecessary data. In some cases, dealing with data can take the majority of frontend development time, leaving little time to spend on building critical UI.
+          </p>
+
+          <p>quote</p>
 
           <h3 id="section-2-3">2.3 Adapting an API</h3>
 
           <p>
-            Let’s imagine that you run a company called SuperEats. Your company provides a platform that enables customers to order a meal from any registered restaurant, and independent contractors to pick up the order from that restaurant, and drive the meal to the customer.
-          </p>
-          <figure>
-            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
-          </figure>
-          <p>
-            SuperEats works with thousands of restaurants, from well-known multinational chains like Chipotle to small hole-in-the-wall shops like Cousin Vinny’s Hot Dogs. Customers place an order from their favorite restaurant, which then comes into SuperEats’ Kafka cluster.
-          </p>
-          <figure>
-            <img src="assets/media/gifs/supereats.gif" class="case-study-image" />
-          </figure>
-          <p>
-            You want your platform to then not only send orders out to drivers, but also for customers to receive real-time updates at every step of the way. For example, customers should know when their meal was made, when the driver has picked it up, when the driver is about five minutes away from their home, and finally when their meal is at their doorstep.
-          </p> 
-          <p>
-            To accomplish this, SuperEats needs a real-time infrastructure that is secure, easy to deploy and use, and takes advantage of their existing infrastructure.
+            Development teams faced with supporting multiple clients are not limited to using fixed endpoints that cause under-fetching and over-fetching. They can adapt their REST APIs to make them better fit each of their frontend use cases. Adding new endpoints, providing query parameters for customized requests, or versioning their API for each use case are a few options.
           </p>
 
           <figure>
-            <img src="assets/media/gifs/supereats_responds.gif" class="case-study-image" />
+            <img src="assets/media/images/superEatsLogo.png" class="case-study-image" />
           </figure>
+
+          <p>
+            Introducing customization makes a REST API more flexible. However, these adaptations make it more complex and challenging to work with for API providers. In a recent survey by Postman, 51% of respondents reported over half of their organization’s development effort is dedicated to APIs. As the complexity grows, adapting the API can become a critical bottleneck, slowing the addition of future client use cases.
+          </p>
+
+          <p>quote</p>
+
+          <p>
+            Creating and managing documentation can also take time away from the backend developer’s primary responsibilities. As the API changes and adaptations are made, the documentation becomes more challenging to maintain, requiring more time to keep up-to-date. This may not always be possible, which is why API documentation is often considered a “nice-to-have” on the priority list for providers. However, documentation is critical for API consumers, and poor or missing information about endpoints compounds the challenges faced by the frontend team.
+          </p>
          
+          <p>
+            While our hypothetical bookstore example is simplified for demonstration, in reality, the developers often need to interact with many APIs to fetch all the data they need. This means they deal with data access issues across multiple APIs and data sources, increasing the complexity and the time necessary to deal with it.
+          </p>
+
+          <p>
+            REST is widespread because it works well for applications where the API can be optimized for a use case, and data access patterns match the provided endpoints. While endpoints can be adapted in various ways to facilitate request customization, this comes at the cost of complexity and developer time. However, several vital factors may influence a team to re-consider how they structure an API:
+          </p>
+          
+          <ul>
+            <li>Support is needed for frontend applications that have different bandwidth needs</li>
+            <li>Data access is nested, interrelated, recursive, or varies frequently</li>
+            <li>Data is distributed across multiple sources</li>
+          </ul>
+
+          <p>
+            A new API paradigm, GraphQL, emerged in 2015 as an option to create APIs that are highly customizable and flexible for such use cases.
+          </p>
+
           <!-- Section 3 -->
           <h2 id="section-3" class="h2">3. GraphQL</h2>
 
