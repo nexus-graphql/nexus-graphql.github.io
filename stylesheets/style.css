@@ -287,7 +287,7 @@ body {
 }
 
 #toc a:hover .bullet div {
-  background-color: var(--gray-400);
+  background-color: var(--nexus-dark-blue);
 }
 
 #toc .selected a:hover .bullet div {
