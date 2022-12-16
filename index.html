@@ -1037,30 +1037,263 @@
 
           <h4 id="section-6-1-1">6.1.1 Initializing a Server and Integrating Data Sources</h4>
 
-          <h3 id="section-6-2">6.2 Deploying the Server</h3>
-          
-
-
-          <h3 id="section-7">7 Nexus Implementation Challenges</h3>
-          <p>Fjord positions itself in between the paid services and the DIY approach.
+          <p>
+            The main point of interaction between Nexus and Mesh is through a configuration file, where YAML is used to specify various options.
           </p>
 
-          <h4>7.1 Hot Reloading</h4>
-          <p>Fjord positions itself in between the paid services and the DIY approach.
+          <p>
+            When a user interacts with the Nexus command line tool, they start by entering the `init` command. Behind the scenes, this command first installs necessary GraphQL Mesh packages and creates a configuration file in the user’s current working directory. Nexus prompts the user for a Postgres connection string, which is then validated using the `pg-promise` library to make a connection to the database. The validated database connection information is then passed to a template, which will format it into valid YAML. Lastly, the formatted YAML is supplied to the configuration file.
+          </p>
 
-          <h4>7.2 Time To Redeploy</h4>
-          <p>Fjord positions itself in between the paid services and the DIY approach.
+          <p>
+            The' add' command adds additional data sources to the configuration file. The user provides data source information to Nexus, which is then formatted into YAML and supplied to the configuration file.
+          </p>
 
-          <h4>7.3 Connectin Multiple Data Sources</h4>
-          <p>Fjord positions itself in between the paid services and the DIY approach.
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            Once the data sources are added to the configuration file, GraphQL schemas can be created for every data source provided to it. Each data source is consumed by a source handler that introspects or gathers information about the data source. The result of introspecting each data source is an individual GraphQL schema defined using the SDL.
+          </p>
+
+          <p>
+            Schema customization, in the form of transformations, can be implemented at both the individual and unified schema levels. For example, we add an authorization middleware function to the unified schema for the user to prevent unauthorized access.
+          </p>
+
+          <p>
+            Once the schemas are generated, combined, and any modifications applied, the local GraphQL server is ready to deploy.
+          </p>
+
+          <h3 id="section-6-2">6.2 Deploying the Server</h3>
+          
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            When a user runs `nexus deploy`, within a few minutes, their server is automatically deployed to an AWS infrastructure that is provisioned for them. Even though it is a simple process for the user, many things have to happen in the background for that to occur.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            Since we generate the GraphQL server on the user’s local machine, we need a reliable way to deploy their application code and ensure that it runs on their AWS infrastructure. We chose to deploy using containerization. Let’s briefly discuss the process and clarify a few terms.
+          </p>
+
+          <p>
+            Nexus writes the GraphQL server code on the developer's machine. This application code has dependencies that also live on their machine. Suppose the application is transferred to a new machine; errors may occur due to the application's dependencies not being present. Containerization encapsulates the application code, libraries, and dependencies required for the software to run. Doing this allows the application to be run on different systems while reducing dependency issues.
+          </p>
+
+          <p>
+            Docker is an open-source implementation for containerization. A Docker image is like a blueprint of the application, which includes all the dependencies. We store Docker images in a repository, similar to storing source code on a remote repository like GitHub. Containers are created through images and run the actual application code. We can then pull the Docker image from a repository onto a cloud machine to run the application.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            Creating and pushing a Docker image to a private repository, pulling the image down onto cloud infrastructure, and running a container from the image provided us with a code deployment workflow that helped eliminate application dependency issues between the user’s local machine and the cloud-hosted machine.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            When the user runs the deploy command, we provision the AWS services to get their server up and running. We start by locally building a Docker image from their generated GraphQL server. Next, we use Terraform, an infrastructure as code tool, to create a private image repository on Amazon’s Elastic Container Registry. Terraform helps make deploying infrastructure more efficient by allowing users to provision AWS resources using code in Terraform configuration files. We considered using AWS’s service CloudFormation as an alternative to Terraform, but we wanted the ability to deploy on multiple cloud providers in the future.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            The Docker image is pushed to the new repository using the AWS CLI. We also use Terraform to provision AWS Elastic Container Service and Fargate. Elastic Container Service makes managing and scaling containers easier. Fargate works alongside ECS to provision and manages all the infrastructure required to run the container, meaning the user will not have to manage the underlying EC2 instances directly. Together, they allow the developer to spend less time managing resources but still allow them to make changes or scale in the future.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            One of the benefits of using ECS is that we can reference the ECR repository URL we created in the ECR Terraform configuration file during the provisioning of ECS and Fargate. This allows the server to run as soon as the instance is live with no additional configuration. That process is partially made possible by Terraform modularization. Modularization is a collection of Terraform configuration files grouped in a directory. By modularizing the configuration files, it is possible to reference details about the resources created, such as the ECR repository URL, in the ECS module. Consequently, the image pushed to the ECR is immediately running as soon as the instance is live. Figure (number) shows the high-level AWS infrastructure after deployment is complete.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <h3 id="section-7">7 Nexus Implementation Challenges</h3>
+
+          <p>
+            We’d now like to highlight a few of the technical challenges we encountered as we built Nexus.
+          </p>
+
+          <h4>7.1 Connectin Multiple Data Sources</h4>
+
+          <p>
+            After users have initialized their Nexus project, they have a GraphQL API that each client can query for the data they need. While each data source has been combined in the unified schema, there’s still a problem.
+          </p>
+
+          <p>
+            Data stored across multiple sources is often related. An example could be product data, such as books stored in a database, with cart information stored in Shopify. When separate data sources containing related data are combined in a generated server, the relationship across sources isn’t automatically recognized. We can still fetch information from both in a single query. However, the relationship that exists between these two sources isn’t represented in our GraphQL API.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            Since we can’t shape a query that shows a relationship between the two data sources, we retrieve a response that includes the data for one cart and all books. The frontend developer would then need to filter the books required for this particular cart.
+          </p>
+
+          <p>
+            Our challenge was to find a way to help the user define these inherent relationships between data sources within their GraphQL server. If we can connect these data sources, they can be queried together. Fetching a specific cart would only yield the books for that cart, even when books come from another source.
+          </p>
+
+          <p>
+            In order to associate two data sources, we needed to capture a few pieces of information. We gather this from the user with a form on the dashboard. This form is built dynamically and prefilled with the available options based on the user’s generated schemas.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            We need to know which types from two data sources the user would like to associate. To display these, we needed to load all the individual schemas and filter only the relevant types in each one. This ensures the user only sees valid options for types that can connect on the form. Here, we’ll use a cart and books to demonstrate.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            Once we know the two types, we can display the available fields for each type for the user to select. These fields should represent the data association - typically an ID field stored in both data sources. In our example, the cart’s `book id` field is directly related to the `id` of a book. The user knows this, but our GraphQL server doesn’t.
+          </p>
+
+          <p>
+            Once we know how the data is associated based on the user’s selections, we can build the necessary connection within the GraphQL schema.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            First, we add a new field to the user’s cart, a book. In the background, we extend the cart schema by adding a new field to the cart type with a custom type definition in the user’s configuration file. This defines the association within the GraphQL server and will allow the user to request books related to a particular cart.
+          </p>
+
+          <p>
+            Next, we need to define how to resolve this new book field. We accomplish this by adding an additional resolver within the user’s configuration file.
+          </p>
+
+          <p>
+            Now, when the user queries a cart and selects the book field, the right book data is returned.
+          </p>
+          
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <h4>7.2 Hot Reloading</h4>
+          <p>
+            When the user changes the server on the dashboard, as we saw with connecting two data sources, locally testing these changes is a logical next step. To assist with testing, we run a local development server accessible within the dashboard.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            However, GraphQL Mesh offered no option for hot reloading this development server. We needed a way to keep the server up-to-date without forcing the user to shut down their dashboard every time they make a change, so we implemented our own hot reloading function.
+          </p>
+
+          <p>
+            Anytime the user changes to their server, such as adding, editing, or deleting a data source, that change is reflected in their configuration file.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            We used the watch function from Node’s file system library to keep track of changes within the configuration file. By adding an event listener to a `watch` object, we could watch for changes within the GraphQL Mesh configuration file. When there is a change, the event listener executes a function that kills the running GraphiQL development server and loads a new one.
+          </p>
+
+          <p>
+            By implementing this hot reloading function, we avoid outdated information in the user’s test server and prevent them from shutting down the entire Dashboard any time they change their server.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <h4>7.3 Time To Redeploy</h4>
+          
+          <p>
+            In addition to reloading the dashboard’s local development server on user changes, we needed a clear redeployment workflow. As users shift their focus from configuring to testing, they may forget to redeploy the changes they’ve made. To help remind them that their local server is out of sync with their deployed server, we implemented a basic change notification system.
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            We created a helper function within the dashboard’s backend that is invoked on every user change. This function updates an environment variable in the project folder that tracks changes.
+          </p>
+
+          <p>
+            We included logic in our React code for the dashboard that displays the alert if changes have been made and there is an active deployment. Redeployment is unnecessary if no server is deployed or changes have been made; in this case, the alert is not visible.
+          </p>
+
+          <p>
+            When there are changes and a deployed server, the user can click the corresponding button to initiate redeployment. After they initiate redeployment, we lock the dashboard’s deploy and redeploy functionality until it is successful. 
+          </p>
+
+          <figure>
+            <img src="assets/media/gifs/triangular_pattern.gif" class="case-study-image" />
+          </figure>
+
+          <p>
+            In the background, the docker image is rebuilt locally. Once the image is ready, we use the AWS command line to push the new image to the user’s private image repository and then update Fargate to utilize the newest version of the image. Finally, we wait for a successful deployment and update the user’s dashboard to reflect the status. 
+          </p>
 
           <!-- Section 8 -->
           <h2 id="section-8" class="h2">8. Future Work</h2>
           <h3 id="section-8-1">8.1 Customization of the GraphQL Schema</h3>
 
+          <p>
+            Allowing the user to customize their GraphQL schema would improve the quality of their server. For example, the user may have fields in a database table that they do not want to be visible in the schema. We would like to implement additional customization, such as allowing the users to toggle which fields of a database table they would like visible in their schema.
+          </p>
+
           <h3 id="section-8-2">8.2 Multi-Cloud Deployment</h3>
           
+          <p>
+            Currently, Nexus only enables users to deploy on AWS. We would like to expand to include deployment to other cloud providers such as Google Cloud Platform, Digital Ocean, or Microsoft Azure.
+          </p>
+
           <h3 id="section-8-3">8.3 Allowing Additional Data Sources</h3>
+          
+          <p>
+            The team would like to allow more data sources that can be used when generating a server. Some data source types that we would like to include are MongoDB, SOAP APIs, gRPC APIs, and other flavors of SQL beyond Postgres.
+          </p>
+
+          <h3>Sources</h3>
+          <ul>
+            <li>https://www.postman.com/state-of-api/</li>
+            <li>https://stepzen.com/blog/rest-versus-graphql</li>
+            <li>https://backlinko.com/page-speed-stats</li>
+            <li>https://www.youtube.com/watch?v=eD7kLFGOgVw</li>
+            <li>https://www.oreilly.com/library/view/linux-shell-scripting/9781785881985/bc450563-0a16-40a</li>
+            <li>7-90f4-cad57506a501.xhtm</li>
+            <li>https://web.dev/rail/</li>
+            <li>https://apiacademy.co/2022/05/key-use-cases-for-graphql-apis/</li>
+            <li>https://blog.logrocket.com/code-first-vs-schema-first-development-graphql/</li>
+          </ul>
         </div>
       </div>
     </div>
