@@ -511,12 +511,12 @@ img.icon {
 }
 
 #our-team .social a {
-  color: var(--gray-400);
+  color: #14014e;
   font-size: 1.5rem;
 }
 
 #our-team .social a:hover {
-  color: var(--gray-300);
+  color: #fff;
 }
 
 #our-team img {
