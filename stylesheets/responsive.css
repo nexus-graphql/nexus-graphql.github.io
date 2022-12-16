@@ -153,8 +153,8 @@
     background-position: calc(50% / 4) calc(50% + 2rem);
   }
 
-  #start-here div.static-logo-light-blue {
-    background-image: url("../assets/logo/nexus-logo.png");
+  #start-here div.static-logo-white {
+    background-image: url("../assets/images/nexus-white.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 30%;
