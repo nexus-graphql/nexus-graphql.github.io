@@ -586,6 +586,10 @@ img.icon {
   display: none;
 }
 
+#start-here div.static-logo-white {
+  display: none;
+}
+
 #start-here .h-full {
   height: auto;
 }
