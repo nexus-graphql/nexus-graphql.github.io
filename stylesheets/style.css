@@ -70,6 +70,10 @@ body {
   background-color: var(--nexus-dark-blue);
 }
 
+.bg-blue {
+  background-color: var(--nexus-blue);
+}
+
 .bg-yellow {
   background-color: var(--fjord-yellow);
 }
