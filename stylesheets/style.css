@@ -258,7 +258,7 @@ body {
 }
 
 #toc .selected a {
-  color: var(--fjord-blue);
+  color: var(--nexus-dark-blue);
   text-decoration: none;
 }
 
