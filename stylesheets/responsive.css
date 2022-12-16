@@ -64,7 +64,7 @@
 
   #header nav a:hover {
     border-bottom-color: var(--gray-300);
-    color: var(--gray-700);
+    color: var(--nexus-dark-blue);
   }
 
   #header nav a.selected {
@@ -154,7 +154,7 @@
   }
 
   #start-here div.static-logo-light-blue {
-    background-image: url("../assets/logo/fjord-light-blue.png");
+    background-image: url("../assets/logo/nexus-logo.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 30%;
@@ -172,7 +172,7 @@
   }
 
   #start-here div.static-logo-blue {
-    background-image: url("../assets/logo/fjord-blue.png");
+    background-image: url("../assets/logo/nexus-logo.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 30%;
