@@ -539,7 +539,7 @@
           </figure>
 
           <p>
-            When the frontend developer fetches the data to display this page, they make a request to the pre-existing /books endpoint designed for the desktop application. Since the REST API has not yet been adapted for this new use case, the current endpoint returns information that doesn’t fit the mobile application's data needs. This is known as over-fetching. Figure (number) shows the /books endpoint’s response which has all the book information, but the mobile application doesn’t need all of that data.
+            When the frontend developer fetches the data to display this page, they make a request to the pre-existing <span class="code-snippet">/books</span> endpoint designed for the desktop application. Since the REST API has not yet been adapted for this new use case, the current endpoint returns information that doesn’t fit the mobile application's data needs. This is known as over-fetching. Figure (number) shows the <span class="code-snippet">/books</span> endpoint’s response which has all the book information, but the mobile application doesn’t need all of that data.
           </p>
 
           <figure>
@@ -702,7 +702,7 @@
           </figure>
 
           <p>
-            The default type `Query` represents one entry point into the schema and actions that retrieve data. The `Query` type contains fields that the GraphQL schema creator defines. The GraphQL specification also includes default types of `Mutation` for adding or modifying data and `Subscription` to support streaming data with GraphQL.
+            The default type <span class="code-snippet">Query</span> represents one entry point into the schema and actions that retrieve data. The <span class="code-snippet">Query</span> type contains fields that the GraphQL schema creator defines. The GraphQL specification also includes default types of <span class="code-snippet">Mutation</span> for adding or modifying data and <span class="code-snippet">Subscription</span> to support streaming data with GraphQL.
           </p>
 
           <figure>
@@ -941,7 +941,7 @@
           <h3 id="section-5-2">5.2 Initializing GraphQL API Server</h3>
         
           <p>
-            After installation, the user can initialize a new project with the init command. They’ll run this in an empty project folder where we’ll generate their server files. We collect a Postgres database as the primary data source. To avoid confusing bugs when the server is generated, the Postgres connection string is validated for the user when they input it.
+            After installation, the user can initialize a new project with the <span class="code-snippet">init</span> command. They’ll run this in an empty project folder where we’ll generate their server files. We collect a Postgres database as the primary data source. To avoid confusing bugs when the server is generated, the Postgres connection string is validated for the user when they input it.
           </p>
 
           <figure>
@@ -955,7 +955,7 @@
           <h3 id="section-5-3">5.3 Adding Other Data Sources</h3>
           
           <p>
-            Adding a second data source is similar to adding the initial Postgres database. The `nexus add` command will prompt the user for the data source type and then tailor subsequent prompts based on that source type. This command can add REST endpoints, a remote GraphQL API, or another Postgres database.
+            Adding a second data source is similar to adding the initial Postgres database. The <span class="code-snippet">nexus add</span> command will prompt the user for the data source type and then tailor subsequent prompts based on that source type. This command can add REST endpoints, a remote GraphQL API, or another Postgres database.
           </p>
 
           <figure>
@@ -969,7 +969,7 @@
           <h3 id="section-5-4">5.4 Testing the Server Locally</h3>
 
           <p>
-            After the user initializes their server and adds one or more data sources, they can test their API locally by running the `nexus dev` command. This opens a graphical interface for exploring the unified schema and making test queries. The test server supporting this interface is identical to the server that will be deployed, so it can be used to accurately pre-plan client queries.
+            After the user initializes their server and adds one or more data sources, they can test their API locally by running the <span class="code-snippet">nexus dev</span> command. This opens a graphical interface for exploring the unified schema and making test queries. The test server supporting this interface is identical to the server that will be deployed, so it can be used to accurately pre-plan client queries.
           </p>
 
           <figure>
@@ -979,7 +979,7 @@
           <h3 id="section-5-5">5.5 Deployment</h3>
 
           <p>
-            Nexus simplifies the deployment process down to a single command: `nexus deploy`. This command handles all the complexity of packaging the server code and provisioning the infrastructure. 
+            Nexus simplifies the deployment process down to a single command: <span class="code-snippet">nexus deploy</span>. This command handles all the complexity of packaging the server code and provisioning the infrastructure. 
           </p>
 
           <figure>
@@ -989,7 +989,7 @@
           <h3 id="section-5-6">5.6 Dashboard</h3>
 
           <p>
-            Once the server is deployed, the user can use the `nexus dashboard` command to run a local dashboard that displays information about their API. This includes their deployed server's status, endpoint, authorization key, and current data sources. Additionally, they can add, edit, or delete data sources from their dashboard. An integrated local test server is included in the “GraphiQL” tab.
+            Once the server is deployed, the user can use the <span class="code-snippet">nexus dashboard</span> command to run a local dashboard that displays information about their API. This includes their deployed server's status, endpoint, authorization key, and current data sources. Additionally, they can add, edit, or delete data sources from their dashboard. An integrated local test server is included in the “GraphiQL” tab.
           </p>
 
           <figure>
@@ -997,7 +997,7 @@
           </figure>
 
           <p>
-            If the user makes changes to the data sources, a message will alert them to redeploy. Redeployment can be done in the dashboard with a single click or with the `nexus redeploy` command.
+            If the user makes changes to the data sources, a message will alert them to redeploy. Redeployment can be done in the dashboard with a single click or with the <span class="code-snippet">nexus redeploy</span> command.
           </p>
 
           <h3 id="section-5-7">5.7 Destroy</h3>
@@ -1042,11 +1042,11 @@
           </p>
 
           <p>
-            When a user interacts with the Nexus command line tool, they start by entering the `init` command. Behind the scenes, this command first installs necessary GraphQL Mesh packages and creates a configuration file in the user’s current working directory. Nexus prompts the user for a Postgres connection string, which is then validated using the `pg-promise` library to make a connection to the database. The validated database connection information is then passed to a template, which will format it into valid YAML. Lastly, the formatted YAML is supplied to the configuration file.
+            When a user interacts with the Nexus command line tool, they start by entering the <span class="code-snippet">init</span> command. Behind the scenes, this command first installs necessary GraphQL Mesh packages and creates a configuration file in the user’s current working directory. Nexus prompts the user for a Postgres connection string, which is then validated using the <span class="code-snippet">pg-promise</span> library to make a connection to the database. The validated database connection information is then passed to a template, which will format it into valid YAML. Lastly, the formatted YAML is supplied to the configuration file.
           </p>
 
           <p>
-            The' add' command adds additional data sources to the configuration file. The user provides data source information to Nexus, which is then formatted into YAML and supplied to the configuration file.
+            The <span class="code-snippet">add</span> command adds additional data sources to the configuration file. The user provides data source information to Nexus, which is then formatted into YAML and supplied to the configuration file.
           </p>
 
           <figure>
@@ -1072,7 +1072,7 @@
           </figure>
 
           <p>
-            When a user runs `nexus deploy`, within a few minutes, their server is automatically deployed to an AWS infrastructure that is provisioned for them. Even though it is a simple process for the user, many things have to happen in the background for that to occur.
+            When a user runs <span class="code-snippet">nexus deploy</span>, within a few minutes, their server is automatically deployed to an AWS infrastructure that is provisioned for them. Even though it is a simple process for the user, many things have to happen in the background for that to occur.
           </p>
 
           <figure>
@@ -1172,7 +1172,7 @@
           </figure>
 
           <p>
-            Once we know the two types, we can display the available fields for each type for the user to select. These fields should represent the data association - typically an ID field stored in both data sources. In our example, the cart’s `book id` field is directly related to the `id` of a book. The user knows this, but our GraphQL server doesn’t.
+            Once we know the two types, we can display the available fields for each type for the user to select. These fields should represent the data association - typically an ID field stored in both data sources. In our example, the cart’s <span class="code-snippet">book id</span> field is directly related to the <span class="code-snippet">id</span> of a book. The user knows this, but our GraphQL server doesn’t.
           </p>
 
           <p>
@@ -1221,7 +1221,7 @@
           </figure>
 
           <p>
-            We used the watch function from Node’s file system library to keep track of changes within the configuration file. By adding an event listener to a `watch` object, we could watch for changes within the GraphQL Mesh configuration file. When there is a change, the event listener executes a function that kills the running GraphiQL development server and loads a new one.
+            We used the watch function from Node’s file system library to keep track of changes within the configuration file. By adding an event listener to a <span class="code-snippet">watch</span> object, we could watch for changes within the GraphQL Mesh configuration file. When there is a change, the event listener executes a function that kills the running GraphiQL development server and loads a new one.
           </p>
 
           <p>
