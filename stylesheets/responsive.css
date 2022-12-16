@@ -178,6 +178,7 @@
     background-size: 30%;
     background-position: calc(50% / 4) calc(50% + 2rem);
     display: flex;
+    opacity: 70%;
   }
 
   #start-here .h-full {
