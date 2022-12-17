@@ -480,7 +480,7 @@
 
           <figure>
             <img src="assets/media/diagrams/1.png" class="case-study-image" />
-            <figcaption>Figure 1 - Nexus is an instant GraphQL API framework.</figcaption>
+            <figcaption>Fig.1 - Nexus is an instant GraphQL API framework</figcaption>
           </figure>
 
           <p>
@@ -500,6 +500,7 @@
 
           <figure>
             <img src="assets/media/diagrams/2.png" class="case-study-image" />
+            <figcaption>Fig.2 - APIs are a way to share data across systems</figcaption>
           </figure>
   
           <p>
@@ -518,6 +519,7 @@
 
           <figure>
             <img src="assets/media/diagrams/3.png" class="case-study-image" />
+            <figcaption>Fig.3 - Example of REST API endpoints</figcaption>
           </figure>
   
           <p>
@@ -539,7 +541,8 @@
           </p>
 
           <figure>
-            <img src="assets/media/diagrams/5.png" class="case-study-image" />
+            <img src="assets/media/diagrams/4.png" class="case-study-image" />
+            <figcaption>Fig.5 - Each client type has different data needs.</figcaption>
           </figure>
 
           <p>
@@ -548,6 +551,7 @@
 
           <figure>
             <img src="assets/media/diagrams/6.png" class="case-study-image" />
+            <figcaption>Fig.6 - Over-fetching data can lead to system performance issues.</figcaption>
           </figure>
 
           <p>
@@ -560,6 +564,7 @@
 
           <figure>
             <img src="assets/media/diagrams/7.png" class="case-study-image" />
+            <figcaption>Fig.7 - Under-fetching data can lead to additional requests to complete a page.</figcaption>
           </figure>
 
           <p>
@@ -568,6 +573,7 @@
 
           <figure>
             <img src="assets/media/diagrams/8.png" class="case-study-image" />
+            <figcaption>Fig.8 - Round-trip latency leads to longer page load times, especially for mobile clients</figcaption>
           </figure>
 
           <p>
@@ -586,6 +592,7 @@
 
           <figure>
             <img src="assets/media/diagrams/10.png" class="case-study-image" />
+            <figcaption>Fig.9 - Adjusting & creating endpoints to accommodate new client use cases</figcaption>
           </figure>
 
           <p>
@@ -627,6 +634,7 @@
 
           <figure>
             <img src="assets/media/diagrams/12.png" class="case-study-image" />
+            <figcaption>Fig.10 - All client types query the same single endpoint</figcaption>
           </figure>
 
           <p>
@@ -635,6 +643,7 @@
 
           <figure>
             <img src="assets/media/diagrams/13.png" class="case-study-image" />
+            <figcaption>Fig.11 - A query specifies the data, and the response matches the query structure</figcaption>
           </figure>
 
           <p>
@@ -643,6 +652,7 @@
 
           <figure>
             <img src="assets/media/diagrams/14.png" class="case-study-image" />
+            <figcaption>Fig.12 - Each client can specify the required data with custom queries</figcaption>
           </figure>
 
           <p>
@@ -651,6 +661,7 @@
 
           <figure>
             <img src="assets/media/diagrams/15.png" class="case-study-image" />
+            <figcaption>Fig.13 - Latency is reduced for clients and pushed to the GraphQL layer</figcaption>
           </figure>
 
           <p>
@@ -691,6 +702,7 @@
 
           <figure>
             <img src="assets/media/diagrams/17.png" class="case-study-image" />
+            <figcaption>Fig.14 - Server responsibilities to support a single endpoint</figcaption>
           </figure>
 
           <p>
@@ -791,10 +803,11 @@
 
           <figure>
             <img src="assets/media/diagrams/24.png" class="case-study-image" />
+            <figcaption>Fig.15 - AWS Services</figcaption>
           </figure>
 
           <p>
-            Currently, AWS offers 200+ services, with more added all the time. You can see an example of these services in figure (number). The sheer volume of services, plus their confusing names and acronyms, has inspired several “AWS in plain English” articles to be written that strive to explain what each service is used for and what it should have been called instead.
+            Currently, AWS offers 200+ services, with more added all the time. You can see an example of these services in figure 15. The sheer volume of services, plus their confusing names and acronyms, has inspired several “AWS in plain English” articles to be written that strive to explain what each service is used for and what it should have been called instead.
           </p>
 
           <p>
@@ -811,10 +824,11 @@
 
           <figure>
             <img src="assets/media/diagrams/25.png" class="case-study-image" />
+            <figcaption>Fig.16 - AWS CLI commands to provision a single EC2 instance</figcaption>
           </figure>
 
           <p>
-            Both of these tools strive to make provisioning convenient for the developer. However, they both involve dozens of sequential steps to provision and connect the different resources required. In figure (number), you can see an example of some commands that need to be run in the AWS CLI to provision a single EC2 instance. Although this is a simplified example, the documentation for EC2 alone offers 575 commands. This volume is what developers struggle with. Although having many options can be good, navigating them can also be challenging, especially for someone new to infrastructure.
+            Both of these tools strive to make provisioning convenient for the developer. However, they both involve dozens of sequential steps to provision and connect the different resources required. In figure 16, you can see an example of some commands that need to be run in the AWS CLI to provision a single EC2 instance. Although this is a simplified example, the documentation for EC2 alone offers 575 commands. This volume is what developers struggle with. Although having many options can be good, navigating them can also be challenging, especially for someone new to infrastructure.
           </p>
 
           <figure>
@@ -1124,11 +1138,12 @@
           </figure>
 
           <p>
-            One of the benefits of using ECS is that we can reference the ECR repository URL we created in the ECR Terraform configuration file during the provisioning of ECS and Fargate. This allows the server to run as soon as the instance is live with no additional configuration. That process is partially made possible by Terraform modularization. Modularization is a collection of Terraform configuration files grouped in a directory. By modularizing the configuration files, it is possible to reference details about the resources created, such as the ECR repository URL, in the ECS module. Consequently, the image pushed to the ECR is immediately running as soon as the instance is live. Figure (number) shows the high-level AWS infrastructure after deployment is complete.
+            One of the benefits of using ECS is that we can reference the ECR repository URL we created in the ECR Terraform configuration file during the provisioning of ECS and Fargate. This allows the server to run as soon as the instance is live with no additional configuration. That process is partially made possible by Terraform modularization. Modularization is a collection of Terraform configuration files grouped in a directory. By modularizing the configuration files, it is possible to reference details about the resources created, such as the ECR repository URL, in the ECS module. Consequently, the image pushed to the ECR is immediately running as soon as the instance is live. Figure 17 shows the high-level AWS infrastructure after deployment is complete.
           </p>
 
           <figure>
             <img src="assets/media/diagrams/46.png" class="case-study-image" />
+            <figcaption>Fig.17 - High-Level AWS Infrastructure after Deployment</figcaption>
           </figure>
 
           <h3 id="section-7">7 Nexus Implementation Challenges</h3>
